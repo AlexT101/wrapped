@@ -57,8 +57,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-        //navigationView.setNavigationItemSelectedListener(this);
-        //displayView(R.id.nav_home);
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
@@ -83,44 +82,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Intent intent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(intent);
         } else {
-            displayView(item.getItemId());
+            NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
+            navController.navigate(item.getItemId());
         }
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    public void displayView(int viewId) {
-
-        Fragment fragment = null;
-        String title = getString(R.string.app_name);
-
-        if (viewId == R.id.nav_home) {
-            fragment = new HomeFragment();
-            title  = "Home";
-        }else if (viewId == R.id.nav_friends) {
-            fragment = new FriendsFragment();
-            title="Friends";
-        }else if (viewId == R.id.nav_history) {
-            fragment = new ConnectFragment();
-            title="History";
-        }else if (viewId == R.id.nav_connect) {
-            fragment = new ConnectFragment();
-            title="Connect";
-        }else if (viewId == R.id.nav_settings) {
-            fragment = new ConnectFragment();
-            title="Settings";
-        }
-
-        if (fragment != null) {
-            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            ft.replace(R.id.nav_host_fragment_content_main, fragment);
-            ft.commit();
-        }
-
-        // set the toolbar title
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(title);
-        }
     }
 }
