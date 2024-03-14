@@ -23,6 +23,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".LoginActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Wrapped.NoActionBar"/>
+        <activity
+            android:name=".WrappedActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Wrapped.NoActionBar"/>
+        <activity
+            android:name=".DuoActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Wrapped.NoActionBar"/>
     </application>
 
 </manifest>
