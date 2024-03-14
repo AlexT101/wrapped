@@ -24,6 +24,8 @@
         app:headerLayout="@layout/nav_header_main"
         app:itemTextColor="@color/white"
         app:menu="@menu/activity_main_drawer"
+        app:itemBackground="@drawable/nav_view_item_background"
         app:itemIconTint="@color/white"
+        app:itemVerticalPadding="8dp"
         />
 </androidx.drawerlayout.widget.DrawerLayout>
