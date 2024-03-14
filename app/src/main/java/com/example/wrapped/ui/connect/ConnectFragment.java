@@ -25,8 +25,6 @@ public class ConnectFragment extends Fragment {
         binding = FragmentConnectBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        final TextView textView = binding.textConnect;
-        connectViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
 
