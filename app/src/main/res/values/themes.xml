@@ -8,6 +8,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/black</item>
         <!-- Customize your theme here. -->
+        <item name="android:navigationBarColor">@color/black</item>
     </style>
 
     <style name="Theme.Wrapped.NoActionBar">

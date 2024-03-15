@@ -13,10 +13,13 @@ import android.widget.TextView;
 
 public class LoadingActivity extends Activity {
 
+    final int loadingDuration = 3000;
+    final int transitionDuration = 200;
+    final int readyDuration = 1200;
+
     private ProgressBar progressBar;
     private TextView loadingTextView;
     private ImageView checkMark;
-    final int transitionDuration = 200;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +52,7 @@ public class LoadingActivity extends Activity {
                 Intent intent = new Intent(LoadingActivity.this, WrappedActivity.class);
                 startActivity(intent);
                 finish();
-            }, 800)).start();
+            }, readyDuration)).start();
         }).start();
     }
 
@@ -63,7 +66,7 @@ public class LoadingActivity extends Activity {
              */
 
             checkAnimation();
-        }, 3000);
+        }, loadingDuration);
 
     }
 }

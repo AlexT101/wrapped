@@ -1,5 +1,6 @@
 package com.example.wrapped.ui.connect;
 
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -33,20 +34,6 @@ import okhttp3.Response;
 
 public class ConnectFragment extends Fragment {
 
-    /**
-    public static final String CLIENT_ID = "3c72822f2eef4262a6763b428780c09b";
-    public static final String REDIRECT_URI = "wrappe://auth";
-
-    public static final int AUTH_TOKEN_REQUEST_CODE = 0;
-    public static final int AUTH_CODE_REQUEST_CODE = 1;
-
-    private final OkHttpClient mOkHttpClient = new OkHttpClient();
-    private String mAccessToken, mAccessCode;
-    private Call mCall;
-
-    private TextView tokenTextView;
-     */
-
     private FragmentConnectBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -61,45 +48,8 @@ public class ConnectFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-
-        //tokenTextView = (TextView) view.findViewById(R.id.name);
-        //Button tokenBtn = (Button) view.findViewById(R.id.connectButton);
-
-        //tokenBtn.setOnClickListener((v) -> {
-        //    getToken();
-        //});
-    }
-
-    @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
     }
-
-    /**
-    public void getToken() {
-        final AuthorizationRequest request = getAuthenticationRequest(AuthorizationResponse.Type.TOKEN);
-        AuthorizationClient.openLoginActivity(getActivity(), AUTH_TOKEN_REQUEST_CODE, request);
-    }
-
-    private AuthorizationRequest getAuthenticationRequest(AuthorizationResponse.Type type) {
-        return new AuthorizationRequest.Builder(CLIENT_ID, type, getRedirectUri().toString())
-                .setShowDialog(false)
-                .setScopes(new String[] { "user-read-email" }) // <--- Change the scope of your requested token here
-                .setCampaign("your-campaign-token")
-                .build();
-    }
-
-    private Uri getRedirectUri() {
-        return Uri.parse(REDIRECT_URI);
-    }
-
-    private void cancelCall() {
-        if (mCall != null) {
-            mCall.cancel();
-        }
-    }
-     */
 }
