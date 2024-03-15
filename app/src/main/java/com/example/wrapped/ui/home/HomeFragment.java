@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.example.wrapped.DuoActivity;
+import com.example.wrapped.LoadingActivity;
 import com.example.wrapped.WrappedActivity;
 import com.example.wrapped.databinding.FragmentHomeBinding;
 import com.example.wrapped.R;
@@ -38,7 +39,7 @@ public class HomeFragment extends Fragment {
 
         ImageButton wrappedButton = view.findViewById(R.id.wrapped_button);
         wrappedButton.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), WrappedActivity.class);
+            Intent intent = new Intent(getActivity(), LoadingActivity.class);
             startActivity(intent);
         });
 

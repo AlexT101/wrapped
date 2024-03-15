@@ -3,24 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context=".WrappedActivity">
 
-    <TextView
-        android:id="@+id/login_header"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/wrapped_header"
-        android:textSize="24sp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="100dp"/>
+    <com.example.wrapped.StoriesProgressBar
+        android:id="@+id/storiesProgress"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_marginTop="8dp"/>
 
-    <Button
-        android:id="@+id/return_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/return_button"
-        android:layout_below="@id/login_header"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"/>
-
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/storiesProgress"/>
 </RelativeLayout>
