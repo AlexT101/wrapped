@@ -8,18 +8,18 @@ tools:context=".ui.connect.ConnectFragment">
 
 
     <ScrollView
-    android:id="@+id/scrollViewConnect"
-    android:layout_width="415dp"
-    android:layout_height="731dp"
-    android:background="@drawable/gradient"
-    android:clipToOutline="false"
-    android:outlineAmbientShadowColor="#FFFFFF"
-    android:outlineSpotShadowColor="#FFFFFF"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintVertical_bias="0.0">
+        android:id="@+id/scrollViewConnect"
+        android:layout_width="431dp"
+        android:layout_height="776dp"
+        android:background="@drawable/gradient"
+        android:clipToOutline="false"
+        android:outlineAmbientShadowColor="#FFFFFF"
+        android:outlineSpotShadowColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
     </ScrollView>
 
