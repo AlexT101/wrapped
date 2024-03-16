@@ -2,6 +2,7 @@ package com.example.wrapped;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
@@ -24,6 +25,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.wrapped.databinding.ActivityMainBinding;
+import com.spotify.sdk.android.auth.AuthorizationClient;
+import com.spotify.sdk.android.auth.AuthorizationResponse;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -87,5 +90,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        final AuthorizationResponse response = AuthorizationClient.getResponse(resultCode, data);
+
+        if (Data.AUTH_TOKEN_REQUEST_CODE == requestCode) {
+            Data.setSpotifyToken(response.getAccessToken());
+            Log.d("MainActivity", "Token: " + response.getAccessToken());
+
+        } else if (Data.AUTH_CODE_REQUEST_CODE == requestCode) {
+            Data.setSpotifyCode(response.getCode());
+            Log.d("MainActivity", "Code: " + response.getAccessToken());
+        }
     }
 }
