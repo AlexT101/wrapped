@@ -21,6 +21,8 @@ import okhttp3.Response;
 
 public class Spotify {
 
+    public static Spotify instance = new Spotify();
+
     public static final String CLIENT_ID = "3c72822f2eef4262a6763b428780c09b";
     public static final String REDIRECT_URI = "wrapped://auth";
 
@@ -30,6 +32,8 @@ public class Spotify {
     private static String code;
     private static String token;
     private static JSONObject profile;
+
+    private static ProfileListener profileListener;
 
     private final OkHttpClient mOkHttpClient = new OkHttpClient();
     private Call mCall;
@@ -50,13 +54,22 @@ public class Spotify {
         token = val;
     }
 
+    public static JSONObject getProfile() {
+        return profile;
+    }
+
+    public static void setProfile(JSONObject newProfile) {
+        profile = newProfile;
+        notifyProfileUpdated();
+    }
+
     /**
      * Get token from Spotify
      * This method will open the Spotify login activity and get the token
      * What is token?
      * https://developer.spotify.com/documentation/general/guides/authorization-guide/
      */
-    public void getToken(Activity contextActivity) {
+    public void loadToken(Activity contextActivity) {
         final AuthorizationRequest request = getAuthenticationRequest(AuthorizationResponse.Type.TOKEN);
         AuthorizationClient.openLoginActivity(contextActivity, AUTH_TOKEN_REQUEST_CODE, request);
     }
@@ -67,7 +80,7 @@ public class Spotify {
      * What is code?
      * https://developer.spotify.com/documentation/general/guides/authorization-guide/
      */
-    public void getCode(Activity contextActivity) {
+    public void loadCode(Activity contextActivity) {
         final AuthorizationRequest request = getAuthenticationRequest(AuthorizationResponse.Type.CODE);
         AuthorizationClient.openLoginActivity(contextActivity, AUTH_CODE_REQUEST_CODE, request);
     }
@@ -76,7 +89,7 @@ public class Spotify {
      * Get user profile
      * This method will get the user profile using the token
      */
-    public void onGetUserProfileClicked() {
+    public void loadProfile() {
         if (token == null) {
             Log.d("HTTP", "You need to get an access token first!");
             return;
@@ -100,7 +113,7 @@ public class Spotify {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 try {
-                    profile = new JSONObject(response.body().string());
+                    setProfile(new JSONObject(response.body().string()));
                     Log.d("JSON", profile.toString(3));
                 } catch (JSONException e) {
                     Log.d("JSON", "Failed to parse data: " + e);
@@ -128,13 +141,23 @@ public class Spotify {
      *
      * @return redirect Uri object
      */
-    private static Uri getRedirectUri() {
+    private Uri getRedirectUri() {
         return Uri.parse(REDIRECT_URI);
     }
 
     private void cancelCall() {
         if (mCall != null) {
             mCall.cancel();
+        }
+    }
+
+    public static void setProfileListener(ProfileListener listener) {
+        profileListener = listener;
+    }
+
+    private static void notifyProfileUpdated() {
+        if (profileListener != null) {
+            profileListener.onProfileUpdate(profile);
         }
     }
 }

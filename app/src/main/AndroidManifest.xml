@@ -26,12 +26,6 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ConnectActivity"
-            android:exported="true"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.Wrapped.NoActionBar">
-        </activity>
-        <activity
             android:name=".LoginActivity"
             android:exported="true"
             android:theme="@style/Theme.Wrapped.NoActionBar"/>

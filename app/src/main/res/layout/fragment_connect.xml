@@ -136,21 +136,23 @@
         app:layout_constraintVertical_bias="0.050000012" />
 
     <TextView
-        android:id="@+id/name"
+        android:id="@+id/spotify_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/spotify_name"
         android:textColor="#FFFFFF"
         android:textSize="30sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/scrollViewConnect"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.09"
+        app:layout_constraintHorizontal_bias="0.00"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view"
-        app:layout_constraintVertical_bias="0.24000001" />
+        app:layout_constraintVertical_bias="0.24000001"
+        android:layout_marginStart="32dp"/>
 
     <TextView
-        android:id="@+id/id"
+        android:id="@+id/spotify_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/spotify_id"
@@ -158,26 +160,27 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/scrollViewConnect"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.09"
+        app:layout_constraintHorizontal_bias="0.00"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view"
-        app:layout_constraintVertical_bias="0.32999998" />
+        app:layout_constraintVertical_bias="0.32999998"
+        android:layout_marginStart="32dp"/>
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/confirmConnectedButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/connected"
-        android:background="@drawable/transparent_bg_bordered"
+        android:text="@string/not_connected"
+        android:background="@drawable/transparent_bg_redbordered"
         app:backgroundTint="@null"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.23"
+        app:layout_constraintEnd_toStartOf="@+id/disconnectButton"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/current_account" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/disconnectButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/disconnect"
@@ -185,8 +188,8 @@
         app:backgroundTint="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.78"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/confirmConnectedButton"
         app:layout_constraintTop_toBottomOf="@+id/current_account" />
 
     <TextView
