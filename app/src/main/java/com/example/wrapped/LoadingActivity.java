@@ -15,7 +15,7 @@ public class LoadingActivity extends Activity {
 
     final int loadingDuration = 3000;
     final int transitionDuration = 200;
-    final int readyDuration = 1200;
+    final int readyDuration = 800;
 
     private ProgressBar progressBar;
     private TextView loadingTextView;
@@ -46,7 +46,7 @@ public class LoadingActivity extends Activity {
         }).start();
 
         loadingTextView.animate().alpha(0f).setDuration(transitionDuration).withEndAction(() -> {
-            loadingTextView.setText("Your Wrapped is Ready");
+            loadingTextView.setText(R.string.loading_finished);
             loadingTextView.setAlpha(0f);
             loadingTextView.animate().alpha(1f).setDuration(transitionDuration).withEndAction(() -> new Handler(Looper.getMainLooper()).postDelayed(() -> {
                 Intent intent = new Intent(LoadingActivity.this, WrappedActivity.class);

@@ -11,6 +11,6 @@
         android:layout_height="wrap_content"
         android:textSize="24sp"
         android:layout_gravity="center"
-        android:text="Page goes here" />
+        android:text="@string/wrapped_placeholder" />
 
 </FrameLayout>

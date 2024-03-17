@@ -30,7 +30,7 @@
         android:layout_below="@id/progressBar"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="50dp"
-        android:text="Loading Your Personalized Wrapped"
+        android:text="@string/loading"
         android:textColor="@android:color/white"
         android:textSize="20sp" />
 
