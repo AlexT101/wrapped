@@ -36,4 +36,7 @@
     <string name="duo_description">invite a friend!</string>
     <string name="old_header">Old Wrapped</string>
     <string name="old_button">See all -></string>
+    <string name="wrapped_signup">Wrapped Signup</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="sign_up_go">Sign Up</string>
 </resources>

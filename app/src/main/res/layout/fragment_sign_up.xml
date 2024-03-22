@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".LoginActivity">
+
+    <TextView
+            android:id="@+id/login_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/wrapped_signup"
+            android:textSize="24sp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="100dp" android:layout_alignParentTop="true"/>
+
+    <EditText
+            android:id="@+id/signUpEmailEditText"
+            android:layout_width="371dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:hint="Email"
+            android:inputType="textEmailAddress" android:layout_marginTop="35dp"
+            android:layout_below="@+id/login_header" android:layout_alignParentEnd="true"
+            android:layout_marginEnd="17dp" android:layout_alignParentStart="true" android:layout_marginStart="23dp"/>
+    <EditText
+            android:id="@+id/signUpPasswordEditText"
+            android:layout_width="375dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:layout_marginTop="19dp" android:layout_below="@+id/signUpEmailEditText"
+            android:layout_alignParentEnd="true" android:layout_marginEnd="15dp" android:layout_alignParentStart="true"
+            android:layout_marginStart="22dp"/>
+    <Button
+            android:id="@+id/signup_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/sign_up"
+            android:layout_marginTop="26dp" android:layout_below="@+id/signUpPasswordEditText"
+            android:layout_alignParentEnd="true" android:layout_marginEnd="161dp" android:layout_alignParentStart="true"
+            android:layout_marginStart="162dp"/>
+
+</RelativeLayout>

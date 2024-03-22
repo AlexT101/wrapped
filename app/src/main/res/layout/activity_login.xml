@@ -14,13 +14,27 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="100dp"/>
 
+    <EditText
+            android:id="@+id/emailEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:hint="Email"
+            android:inputType="textEmailAddress" android:layout_marginTop="33dp"
+            android:layout_below="@+id/login_header"/>
+    <EditText
+            android:id="@+id/passwordEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:hint="Password"
+            android:inputType="textPassword" android:layout_marginTop="97dp"
+            android:layout_below="@+id/login_header"/>
     <Button
-        android:id="@+id/login_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/login_button"
-        android:layout_below="@id/login_header"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"/>
+            android:id="@+id/login_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/login_button"
+            android:layout_marginTop="20dp"/>
 
 </RelativeLayout>

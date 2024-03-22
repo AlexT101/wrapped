@@ -34,4 +34,16 @@
         android:name="com.example.wrapped.ui.settings.SettingsFragment"
         android:label="@string/menu_settings"
         tools:layout="@layout/fragment_settings" />
+
+    <fragment
+            android:id="@+id/nav_login"
+            android:name="com.example.wrapped.ui.firebase.FirebaseFragment"
+            android:label="Login"
+            tools:layout="@layout/fragment_firebase" />
+
+    <fragment
+            android:id="@+id/nav_signup"
+            android:name="com.example.wrapped.ui.firebase_signup.SignUpFragment"
+            android:label="Sign Up"
+            tools:layout="@layout/fragment_sign_up" />
 </navigation>
