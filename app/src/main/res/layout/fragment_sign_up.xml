@@ -1,18 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:context=".LoginActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context=".LoginActivity">
 
     <TextView
-            android:id="@+id/login_header"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/wrapped_signup"
-            android:textSize="24sp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="100dp" android:layout_alignParentTop="true"/>
+        android:id="@+id/login_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:text="@string/wrapped_signup"
+        android:textColor="@color/white"
+        android:textSize="24sp" />
 
     <EditText
         android:id="@+id/signUpEmailEditText"
@@ -53,8 +56,19 @@
         android:layout_below="@+id/signUpPasswordEditText"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="26dp"
-        android:text="@string/sign_up"
         android:backgroundTint="@color/white"
+        android:text="@string/sign_up"
+        android:textColor="@color/black" />
+
+    <Button
+        android:id="@+id/return_to_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/signup_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/white"
+        android:text="Return to Login"
         android:textColor="@color/black" />
 
 </RelativeLayout>

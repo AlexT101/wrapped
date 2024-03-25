@@ -11,9 +11,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.wrapped.MainActivity;
 import com.example.wrapped.R;
+import com.example.wrapped.ui.firebase.FirebaseFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -23,6 +25,7 @@ public class SignUpFragment extends Fragment {
 
     private EditText emailEditText, passwordEditText;
     private Button signupButton;
+    private Button goLogin;
     private FirebaseAuth firebaseAuth;
 
     @Override
@@ -38,6 +41,7 @@ public class SignUpFragment extends Fragment {
         passwordEditText = view.findViewById(R.id.signUpPasswordEditText);
         signupButton = view.findViewById(R.id.signup_button);
         firebaseAuth = FirebaseAuth.getInstance();
+        goLogin = view.findViewById(R.id.return_to_login);
 
         signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,6 +49,14 @@ public class SignUpFragment extends Fragment {
                 String email = emailEditText.getText().toString().trim();
                 String password = passwordEditText.getText().toString().trim();
                 signUpUser(email, password);
+            }
+        });
+
+        goLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Navigate to signup fragment
+                navigateToFirebaseFragment();
             }
         });
     }
@@ -67,5 +79,13 @@ public class SignUpFragment extends Fragment {
                         }
                     }
                 });
+    }
+
+    private void navigateToFirebaseFragment() {
+        FirebaseFragment firebaseFragment = new FirebaseFragment();
+        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, firebaseFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 }

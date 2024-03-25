@@ -6,16 +6,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import androidx.navigation.Navigation;
 import com.example.wrapped.MainActivity;
 import com.example.wrapped.R;
+import com.example.wrapped.ui.firebase_signup.SignUpFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -26,7 +29,7 @@ public class FirebaseFragment extends Fragment {
     private EditText emailEditText, passwordEditText;
     private Button loginButton;
 
-    private Button goSignUp;
+    private TextView goSignUp;
     private FirebaseAuth firebaseAuth;
 
     @Override
@@ -56,7 +59,7 @@ public class FirebaseFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 // Navigate to signup fragment
-                Navigation.findNavController(v).navigate(R.id.nav_signup);
+                navigateToSignUpFragment();
             }
         });
 
@@ -80,5 +83,13 @@ public class FirebaseFragment extends Fragment {
                         }
                     }
                 });
+    }
+
+    private void navigateToSignUpFragment() {
+        SignUpFragment signUpFragment = new SignUpFragment();
+        FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, signUpFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 }

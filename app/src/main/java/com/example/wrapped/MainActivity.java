@@ -77,9 +77,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         if (id == R.id.nav_logout) {
-//            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-//            startActivity(intent);
-              navController.navigate(R.id.nav_login);
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
+//              navController.navigate(R.id.nav_login);
         } else {
             navController.navigate(item.getItemId());
         }
