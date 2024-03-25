@@ -45,7 +45,7 @@
                 <TextView
                     android:layout_width="230dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="6dp"
                     android:text="@string/wrapped_description"
                     android:textColor="@color/white"
                     android:textSize="20sp"
@@ -64,7 +64,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/baseline_arrow_circle_up_24" />
+                    android:src="@drawable/button_selector" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
@@ -100,7 +100,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="6dp"
                     android:text="@string/duo_description"
                     android:textColor="@color/white"
                     android:textSize="20sp"
@@ -118,7 +118,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/baseline_arrow_circle_up_24"
+                    android:src="@drawable/button_selector"
                     android:rotation="90"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -151,6 +151,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
+                    android:id="@+id/see_all"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/old_button"

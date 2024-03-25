@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Pressed -->
+    <item android:drawable="@drawable/baseline_arrow_circle_up_24_selected" android:state_pressed="true" />
+    <!-- Focused -->
+    <item android:drawable="@drawable/baseline_arrow_circle_up_24_selected" android:state_focused="true" />
+    <!-- Default -->
+    <item android:drawable="@drawable/baseline_arrow_circle_up_24" />
+</selector>

@@ -3,6 +3,8 @@
     <color name="purple_700">#FF3700B3</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFF</color>
+    <color name="dimmed">#C5C5C5</color>
+    <color name="dimmed_back">#590E0E0E</color>
     <color name="semiWhite">#40FFFFFF</color>
     <color name="app_bar_background">#0B0B0B</color>
     <color name="nav_background">#151515</color>

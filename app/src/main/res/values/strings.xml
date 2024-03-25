@@ -23,9 +23,9 @@
 
     <!-- Home Page -->
     <string name="wrapped_title">Wrapped.</string>
-    <string name="wrapped_description">Your musical tastes, summarized based on listening history</string>
+    <string name="wrapped_description">Your musical tastes, summarized based on listening history.</string>
     <string name="duo_title">Duo</string>
-    <string name="duo_description">invite a friend!</string>
+    <string name="duo_description">Invite a friend!</string>
     <string name="old_header">Old Wrapped</string>
     <string name="old_button">See all -></string>
 

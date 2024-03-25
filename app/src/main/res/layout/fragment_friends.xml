@@ -16,7 +16,7 @@
         android:id="@+id/addButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/round_corners_transparent"
+        android:background="@drawable/button2_selector"
         android:text="Add Friends"
         app:backgroundTint="@null"
         android:textStyle="bold"
