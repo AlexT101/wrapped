@@ -61,8 +61,16 @@
     <string name="not_connected">Not Connected</string>
     <string name="disconnect">Disconnect</string>
     <string name="connect_disclaimer">*Your user data will not be shared with anyone unless you choose to add friends.</string>
+    <string name="wrapped_title">Wrapped.</string>
+    <string name="wrapped_description">Your musical tastes, summarized based on listening history</string>
+    <string name="duo_title">Duo</string>
+    <string name="duo_description">invite a friend!</string>
+    <string name="old_header">Old Wrapped</string>
+    <string name="old_button">See all -></string>
+    <string name="wrapped_signup">Wrapped Signup</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="sign_up_go">Sign Up</string>
     <string name="connect_current">Current Account</string>
     <string name="loading">Loading Your Personalized Wrapped</string>
     <string name="loading_finished">Your Wrapped is Ready</string>
-
 </resources>
