@@ -1,6 +1,8 @@
 package com.example.wrapped.ui.firebase;// LoginFragment.java
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,9 +52,13 @@ public class FirebaseFragment extends Fragment {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = emailEditText.getText().toString().trim();
-                String password = passwordEditText.getText().toString().trim();
-                loginUser(email, password);
+                if (emailEditText == null || TextUtils.isEmpty(emailEditText.getText().toString()) || passwordEditText == null || TextUtils.isEmpty(passwordEditText.getText().toString())) {
+                    Toast.makeText(getActivity(), "Please enter valid email/password", Toast.LENGTH_SHORT).show();
+                } else {
+                    String email = emailEditText.getText().toString().trim();
+                    String password = passwordEditText.getText().toString().trim();
+                    loginUser(email, password);
+                }
             }
         });
         goSignUp.setOnClickListener(new View.OnClickListener() {

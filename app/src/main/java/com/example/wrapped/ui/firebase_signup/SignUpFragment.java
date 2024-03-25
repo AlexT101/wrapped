@@ -1,6 +1,7 @@
 package com.example.wrapped.ui.firebase_signup;// SignUpFragment.java
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,9 +47,13 @@ public class SignUpFragment extends Fragment {
         signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = emailEditText.getText().toString().trim();
-                String password = passwordEditText.getText().toString().trim();
-                signUpUser(email, password);
+                if (emailEditText == null || TextUtils.isEmpty(emailEditText.getText().toString()) || passwordEditText == null || TextUtils.isEmpty(passwordEditText.getText().toString())) {
+                    Toast.makeText(getActivity(), "Please enter valid email/password", Toast.LENGTH_SHORT).show();
+                } else {
+                    String email = emailEditText.getText().toString().trim();
+                    String password = passwordEditText.getText().toString().trim();
+                    signUpUser(email, password);
+                }
             }
         });
 
