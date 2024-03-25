@@ -2,20 +2,16 @@ package com.example.wrapped;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 
-import com.example.wrapped.ui.connect.ConnectFragment;
-import com.example.wrapped.ui.friends.FriendsFragment;
-import com.example.wrapped.ui.home.HomeFragment;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -24,6 +20,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.wrapped.databinding.ActivityMainBinding;
+import com.spotify.sdk.android.auth.AuthorizationClient;
+import com.spotify.sdk.android.auth.AuthorizationResponse;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -88,5 +86,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        final AuthorizationResponse response = AuthorizationClient.getResponse(resultCode, data);
+
+        if (Spotify.AUTH_TOKEN_REQUEST_CODE == requestCode) {
+            Spotify.setToken(response.getAccessToken());
+            Spotify spotifyInstance = new Spotify();
+            Spotify.instance.loadProfile();
+            Log.d("MainActivity", "Token: " + response.getAccessToken());
+
+        } else if (Spotify.AUTH_CODE_REQUEST_CODE == requestCode) {
+            Spotify.setCode(response.getCode());
+            Log.d("MainActivity", "Code: " + response.getAccessToken());
+        }
     }
 }

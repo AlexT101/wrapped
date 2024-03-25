@@ -6,13 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import com.example.wrapped.DuoActivity;
+import com.example.wrapped.LoadingActivity;
 import com.example.wrapped.WrappedActivity;
 import com.example.wrapped.databinding.FragmentHomeBinding;
 import com.example.wrapped.R;
@@ -38,7 +41,7 @@ public class HomeFragment extends Fragment {
 
         ImageButton wrappedButton = view.findViewById(R.id.wrapped_button);
         wrappedButton.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), WrappedActivity.class);
+            Intent intent = new Intent(getActivity(), LoadingActivity.class);
             startActivity(intent);
         });
 
@@ -47,6 +50,9 @@ public class HomeFragment extends Fragment {
             Intent intent = new Intent(getActivity(), DuoActivity.class);
             startActivity(intent);
         });
+
+        TextView textView = view.findViewById(R.id.see_all);
+        textView.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.nav_history));
     }
 
     @Override

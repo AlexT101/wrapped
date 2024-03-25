@@ -19,8 +19,10 @@
             android:theme="@style/Theme.Wrapped.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <data android:host="auth" android:scheme="wrapped"/>
             </intent-filter>
         </activity>
         <activity
@@ -33,6 +35,10 @@
             android:theme="@style/Theme.Wrapped.NoActionBar"/>
         <activity
             android:name=".DuoActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Wrapped.NoActionBar"/>
+        <activity
+            android:name=".LoadingActivity"
             android:exported="true"
             android:theme="@style/Theme.Wrapped.NoActionBar"/>
     </application>

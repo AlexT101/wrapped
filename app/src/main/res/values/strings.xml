@@ -1,14 +1,19 @@
 <resources>
+    <!-- App Basics -->
     <string name="app_name">wrapped</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
+    <!-- Key Info -->
     <string name="username">AlexT101</string>
     <string name="id">\@19013902913</string>
     <string name="spotify_name">Name</string>
     <string name="spotify_id">\@id</string>
+    <string name="spotify">Spotify</string>
+
+    <!-- Navigation Drawer -->
     <string name="menu_home">Home</string>
     <string name="menu_friends">Friends</string>
     <string name="menu_history">Wrapped History</string>
@@ -16,18 +21,44 @@
     <string name="menu_settings">Settings</string>
     <string name="menu_logout">Logout</string>
 
-    <string name="login_header">Wrapped Login</string>
+    <!-- Home Page -->
+    <string name="wrapped_title">Wrapped.</string>
+    <string name="wrapped_description">Your musical tastes, summarized based on listening history.</string>
+    <string name="duo_title">Duo</string>
+    <string name="duo_description">Invite a friend!</string>
+    <string name="old_header">Old Wrapped</string>
+    <string name="old_button">See all -></string>
+
+    <!-- Login Page -->
     <string name="login_button">Login</string>
+    <string name="login_header">Wrapped.</string>
+    <string name="login_email">Email</string>
+    <string name="login_password">Password</string>
+    <string name="login_remember">Remember</string>
+    <string name="login_forgot">Forgot Password?</string>
+    <string name="login_or">or continue with</string>
+    <string name="login_google">Sign-in With Google</string>
+    <string name="login_prompt">Don\'t have an account?</string>
+    <string name="login_signup">Sign Up</string>
+    <string name="login_credit">Powered by</string>
 
+    <!-- Wrapped Page -->
     <string name="wrapped_header">Wrapped</string>
-    <string name="return_button">Return</string>
+    <string name="wrapped_return">Return</string>
+    <string name="wrapped_download">Download as PNG</string>
+    <string name="wrapped_share">Share to Friend</string>
+    <string name="wrapped_placeholder">Page goes here</string>
+    <string name="wrapped_complete">Wrapped Complete</string>
 
+    <!-- Duo Wrapped Page -->
     <string name="duo_header">Duo Wrapped</string>
     <string name="duo_return_button">Return</string>
 
-    <string name="connect_your_spotify">You must connect your Wrapped account to Spotify before you can use our app.*</string>
+    <!-- Connect Page -->
+    <string name="connect_message">You must connect your Wrapped account to Spotify before you can use our app.*</string>
     <string name="connect">Connect</string>
     <string name="connected">Connected</string>
+    <string name="not_connected">Not Connected</string>
     <string name="disconnect">Disconnect</string>
     <string name="connect_disclaimer">*Your user data will not be shared with anyone unless you choose to add friends.</string>
     <string name="wrapped_title">Wrapped.</string>
@@ -39,4 +70,7 @@
     <string name="wrapped_signup">Wrapped Signup</string>
     <string name="sign_up">Sign Up</string>
     <string name="sign_up_go">Sign Up</string>
+    <string name="connect_current">Current Account</string>
+    <string name="loading">Loading Your Personalized Wrapped</string>
+    <string name="loading_finished">Your Wrapped is Ready</string>
 </resources>
