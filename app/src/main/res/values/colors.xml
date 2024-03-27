@@ -14,4 +14,7 @@
     <color name="darkaccent">#215132</color>
     <color name="darkaccent2">#0F2215</color>
     <color name="darkaccent3">#07120B</color>
+    <color name="darkPink">#C93B90</color>
+    <color name="lightPink">#FFD4F6</color>
+
 </resources>

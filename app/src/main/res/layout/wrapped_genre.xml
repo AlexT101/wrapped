@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/darkPink">
+
+    <TextView
+        android:id="@+id/Header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Your Top Genre"
+        android:textColor="@color/lightPink"
+        android:textSize="35dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+
+    <LinearLayout
+        android:id="@+id/topLine"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Header" />
+
+    <LinearLayout
+        android:id="@+id/whiteBlock"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp"
+        android:background="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topLine">
+
+        <TextView
+            android:id="@+id/Top_genre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginTop="20dp"
+            android:text="HIPHOP"
+            android:textColor="@color/darkPink"
+            android:textSize="40dp"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/bottomLine"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/whiteBlock" />
+
+    <TextView
+        android:id="@+id/All_Genre"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="All Your Genres"
+        android:textColor="@color/lightPink"
+        android:textSize="35dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bottomLine" />
+
+    <LinearLayout
+        android:id="@+id/genre1_line"
+        android:layout_width="500dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="-10dp"
+        android:layout_marginTop="60dp"
+        android:background="@null"
+        android:orientation="horizontal"
+        android:rotation="-10"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/All_Genre">
+
+        <TextView
+            android:id="@+id/genre1_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="OP"
+            android:textColor="@color/lightPink"
+            android:textSize="40dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/genre1_middle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HIPHOP"
+            android:textColor="@color/white"
+            android:textSize="40dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/genre1_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HIPHOPHIPHOP"
+            android:textColor="@color/lightPink"
+            android:textSize="40dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/genre2_line"
+        android:layout_width="500dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="-50dp"
+        android:layout_marginTop="10dp"
+        android:background="@null"
+        android:orientation="horizontal"
+        android:rotation="-10"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/genre1_line">
+
+        <TextView
+            android:id="@+id/genre2_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TON"
+            android:textColor="@color/lightPink"
+            android:textSize="40dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/genre2_middle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="RAGGAETON"
+            android:textColor="@color/white"
+            android:textSize="40dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/genre2_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="RAGGAETONRAGGAETON"
+            android:textColor="@color/lightPink"
+            android:textSize="40dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/genre3_line"
+        android:layout_width="500dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="-50dp"
+        android:layout_marginTop="10dp"
+        android:background="@null"
+        android:orientation="horizontal"
+        android:rotation="-10"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/genre2_line">
+
+        <TextView
+            android:id="@+id/genre3_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="R&amp;B"
+            android:textColor="@color/lightPink"
+            android:textSize="40dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/genre3_middle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="R&amp;B"
+            android:textColor="@color/white"
+            android:textSize="40dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/genre3_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="R&amp;BR&amp;BR&amp;BR&amp;B"
+            android:textColor="@color/lightPink"
+            android:textSize="40dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/genre4_line"
+        android:layout_width="500dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="-50dp"
+        android:layout_marginTop="10dp"
+        android:background="@null"
+        android:orientation="horizontal"
+        android:rotation="-10"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/genre3_line">
+
+        <TextView
+            android:id="@+id/genre4_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="USE"
+            android:textColor="@color/lightPink"
+            android:textSize="40dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/genre4_middle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="FLOATHOUSE"
+            android:textColor="@color/white"
+            android:textSize="40dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/genre4_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="FLOATHOUSEFLOATHOUSE"
+            android:textColor="@color/lightPink"
+            android:textSize="40dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/genre5_line"
+        android:layout_width="500dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="-50dp"
+        android:layout_marginTop="10dp"
+        android:background="@null"
+        android:orientation="horizontal"
+        android:rotation="-10"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/genre4_line">
+
+        <TextView
+            android:id="@+id/genre5_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TRY"
+            android:textColor="@color/lightPink"
+            android:textSize="40dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/genre5_middle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="COUNTRY"
+            android:textColor="@color/white"
+            android:textSize="40dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/genre5_end"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="COUNTRYCOUNTRY"
+            android:textColor="@color/lightPink"
+            android:textSize="40dp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
