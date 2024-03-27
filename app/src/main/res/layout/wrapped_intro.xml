@@ -15,19 +15,21 @@
         android:layout_alignParentTop="true"
         app:cardBackgroundColor="@color/black"
         android:elevation="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:layout_marginStart="130dp"
+            android:fontFamily="sans-serif-thin"
+            android:text="wrapped"
+            android:textAlignment="center"
+            android:textColor="#FFABAB"
+            android:textSize="40sp"
+            android:textStyle="bold|italic" />
+
     </androidx.cardview.widget.CardView>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="60dp"
-        android:fontFamily="sans-serif-thin"
-        android:text="wrapped"
-        android:textColor="#FFABAB"
-        android:textSize="40dp"
-        android:textStyle="bold|italic" />
 
     <androidx.cardview.widget.CardView
         app:cardCornerRadius = "160dp"
