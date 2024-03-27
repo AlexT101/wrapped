@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+
+    tools:context=".WrappedActivity">
+
+    <TextView
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:fontFamily="sans-serif-thin"
+        android:text="@string/top_artist"
+        android:textColor="#67B6FF"
+        android:textSize="35dp"
+        android:textStyle="bold|italic"
+        android:textAlignment="center"/>
+
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@drawable/star"
+        android:layout_marginTop="290dp"
+        android:layout_marginStart="300dp"/>
+
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@drawable/star"
+        android:layout_marginTop="200dp"
+        android:layout_marginStart="265dp"/>
+
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@drawable/star"
+        android:layout_marginTop="290dp"
+        android:layout_marginStart="40dp"/>
+
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@drawable/star"
+        android:layout_marginTop="200dp"
+        android:layout_marginStart="75dp"/>
+
+    <ImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@drawable/star"
+        android:layout_marginTop="160dp"
+        android:layout_centerHorizontal="true"/>
+
+    <androidx.cardview.widget.CardView
+        app:cardCornerRadius ="160dp"
+        android:layout_width="235dp"
+        android:layout_height="235dp"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="207.5dp"
+        android:layout_centerHorizontal="true"
+        android:outlineAmbientShadowColor="@color/black"
+        android:elevation="10dp">
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        app:cardCornerRadius = "160dp"
+        android:layout_width="230dp"
+        android:layout_height="230dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="210dp"
+        android:outlineAmbientShadowColor="@color/black"
+        android:elevation="10dp">
+
+        <ImageView
+            android:id="@+id/top_artist_profile"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/profile2" />
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/top_artist_name"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="450dp"
+        android:fontFamily="sans-serif-black"
+        android:text="#1"
+        android:textAlignment="center"
+        android:textColor="#A2C7FF"
+        android:textSize="70sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="520dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="The Weekend"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="40sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="570dp"
+        android:fontFamily="sans-serif-light"
+        android:text="5479 minutes played"
+        android:textAlignment="center"
+        android:textColor="#D9D9D9"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/top_artist_genre"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="630dp"
+        android:fontFamily="sans-serif-light"
+        android:text="Hip Hop・R&amp;B"
+        android:textAlignment="center"
+        android:textColor="#D9D9D9"
+        android:textSize="20sp" />
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:background="@drawable/brand_spotify_green"
+        android:layout_marginTop="675dp"
+        android:layout_marginStart="10dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="@string/spotify"
+        android:textColor="#00db4d"
+        android:textSize="25sp"
+        android:layout_marginTop="680dp"
+        android:layout_marginStart="60dp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:text="SPOTIFY.COM/WRAPPED"
+        android:textColor="#00db4d"
+        android:textSize="15sp"
+        android:layout_marginTop="690dp"
+        android:layout_marginStart="220dp"
+        android:textStyle="bold" />
+
+</RelativeLayout>

@@ -49,6 +49,8 @@
     <string name="wrapped_share">Share to Friend</string>
     <string name="wrapped_placeholder">Page goes here</string>
     <string name="wrapped_complete">Wrapped Complete</string>
+    <string name="top_artist">-One artist- <font color='#A2C7FF'>stood out from them all</font></string>
+
 
     <!-- Duo Wrapped Page -->
     <string name="duo_header">Duo Wrapped</string>

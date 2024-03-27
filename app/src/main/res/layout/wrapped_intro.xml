@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradient2"
 
-    tools:context=".LoginActivity">
+    tools:context=".WrappedActivity">
 
     <androidx.cardview.widget.CardView
         android:layout_width="410dp"
@@ -247,7 +247,7 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:background="@drawable/brand_spotify_green"
-        android:layout_marginTop="680dp"
+        android:layout_marginTop="675dp"
         android:layout_marginStart="10dp"/>
 
     <TextView
@@ -256,7 +256,7 @@
         android:text="@string/spotify"
         android:textColor="#00db4d"
         android:textSize="25sp"
-        android:layout_marginTop="685dp"
+        android:layout_marginTop="680dp"
         android:layout_marginStart="60dp"
         android:textStyle="bold" />
 
@@ -266,7 +266,7 @@
         android:text="SPOTIFY.COM/WRAPPED"
         android:textColor="#00db4d"
         android:textSize="15sp"
-        android:layout_marginTop="695dp"
+        android:layout_marginTop="690dp"
         android:layout_marginStart="220dp"
         android:textStyle="bold" />
 
