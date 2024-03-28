@@ -74,4 +74,9 @@
     <string name="personalityDescription">Familiarity • Timelessness</string>
     <string name="personalityBottom">You’re always bopping the same tune,and you take comfort in listening toyour same favorites.</string>
     <string name="spotifyLink">SPOTIFY.COM/WRAPPED</string>
+    <string name="numOneSong">#1</string>
+    <string name="played_song">Played Song</string>
+    <string name="playedSongSubtitle">...and it still hits the same</string>
+    <string name="topSong">Metro Spider</string>
+    <string name="topSongArtist">Metro Boomin, Young Thug</string>
 </resources>
