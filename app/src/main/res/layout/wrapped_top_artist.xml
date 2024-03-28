@@ -88,7 +88,6 @@
     </androidx.cardview.widget.CardView>
 
     <TextView
-        android:id="@+id/top_artist_name"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -102,6 +101,7 @@
         android:textStyle="bold" />
 
     <TextView
+        android:id="@+id/top_artist_name"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
@@ -114,17 +114,6 @@
         android:textSize="40sp"
         android:textStyle="bold" />
 
-    <TextView
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="570dp"
-        android:fontFamily="sans-serif-light"
-        android:text="5479 minutes played"
-        android:textAlignment="center"
-        android:textColor="#D9D9D9"
-        android:textSize="20sp" />
 
     <TextView
         android:id="@+id/top_artist_genre"
@@ -132,7 +121,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="630dp"
+        android:layout_marginTop="610dp"
         android:fontFamily="sans-serif-light"
         android:text="Hip Hop・R&amp;B"
         android:textAlignment="center"
