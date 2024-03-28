@@ -41,6 +41,10 @@
             android:name=".LoadingActivity"
             android:exported="true"
             android:theme="@style/Theme.Wrapped.NoActionBar"/>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

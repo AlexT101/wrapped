@@ -69,4 +69,9 @@
     <string name="connect_current">Current Account</string>
     <string name="loading">Loading Your Personalized Wrapped</string>
     <string name="loading_finished">Your Wrapped is Ready</string>
+    <string name="personalityHeader">Based on your tastes, you’re...</string>
+    <string name="personality">The Replayer</string>
+    <string name="personalityDescription">Familiarity • Timelessness</string>
+    <string name="personalityBottom">You’re always bopping the same tune,and you take comfort in listening toyour same favorites.</string>
+    <string name="spotifyLink">SPOTIFY.COM/WRAPPED</string>
 </resources>
