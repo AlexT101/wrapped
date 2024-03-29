@@ -93,15 +93,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onActivityResult(requestCode, resultCode, data);
         final AuthorizationResponse response = AuthorizationClient.getResponse(resultCode, data);
 
-        if (Spotify.AUTH_TOKEN_REQUEST_CODE == requestCode) {
-            Spotify.setToken(response.getAccessToken());
-            Spotify spotifyInstance = new Spotify();
-            Spotify.instance.loadProfile();
-            Log.d("MainActivity", "Token: " + response.getAccessToken());
-
-        } else if (Spotify.AUTH_CODE_REQUEST_CODE == requestCode) {
+        if (Spotify.AUTH_CODE_REQUEST_CODE == requestCode) {
             Spotify.setCode(response.getCode());
-            Log.d("MainActivity", "Code: " + response.getAccessToken());
+            Spotify.instance.loadToken(this);
         }
     }
 }

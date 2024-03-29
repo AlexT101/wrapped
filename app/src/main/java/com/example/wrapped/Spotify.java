@@ -18,6 +18,8 @@ import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.RequestBody;
+import okhttp3.FormBody;
 
 public class Spotify {
 
@@ -25,6 +27,7 @@ public class Spotify {
 
     public static final String CLIENT_ID = "3c72822f2eef4262a6763b428780c09b";
     public static final String REDIRECT_URI = "wrapped://auth";
+    public static final String BASE64_CREDENTIALS = "M2M3MjgyMmYyZWVmNDI2MmE2NzYzYjQyODc4MGMwOWI6MDM1N2E5NmM4ZWRmNGIyOTk3NWIyMjhmMjM1NGIzOGQ=";
 
     public static final int AUTH_TOKEN_REQUEST_CODE = 0;
     public static final int AUTH_CODE_REQUEST_CODE = 1;
@@ -63,35 +66,62 @@ public class Spotify {
         notifyProfileUpdated();
     }
 
-    /**
-     * Get token from Spotify
-     * This method will open the Spotify login activity and get the token
-     * What is token?
-     * https://developer.spotify.com/documentation/general/guides/authorization-guide/
-     */
-    public void loadToken(Activity contextActivity) {
-        final AuthorizationRequest request = getAuthenticationRequest(AuthorizationResponse.Type.TOKEN);
-        AuthorizationClient.openLoginActivity(contextActivity, AUTH_TOKEN_REQUEST_CODE, request);
-    }
-
-    /**
-     * Get code from Spotify
-     * This method will open the Spotify login activity and get the code
-     * What is code?
-     * https://developer.spotify.com/documentation/general/guides/authorization-guide/
-     */
     public void loadCode(Activity contextActivity) {
         final AuthorizationRequest request = getAuthenticationRequest(AuthorizationResponse.Type.CODE);
         AuthorizationClient.openLoginActivity(contextActivity, AUTH_CODE_REQUEST_CODE, request);
     }
 
-    /**
-     * Get user profile
-     * This method will get the user profile using the token
-     */
+    public void loadToken(Activity contextActivity) {
+        if (code == null) {
+            Log.d("SPOTIFY:HTTP", "You need to get a code first!");
+            return;
+        }
+
+        RequestBody body = new FormBody.Builder()
+                .add("grant_type", "authorization_code")
+                .add("code", code)
+                .add("redirect_uri", "wrapped://auth")
+                .build();
+
+        final Request request = new Request.Builder()
+                .url("https://accounts.spotify.com/api/token")
+                .addHeader("content-type", "application/x-www-form-urlencoded")
+                .addHeader("Authorization", "Basic " + BASE64_CREDENTIALS)
+                .post(body)
+                .build();
+
+        cancelCall();
+        mCall = mOkHttpClient.newCall(request);
+
+        mCall.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("SPOTIFY:HTTP", "Failed to fetch token: " + e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String val = response.body().string();
+                contextActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            JSONObject jsonResponse = new JSONObject(val);
+                            String accessToken = jsonResponse.getString("access_token");
+                            setToken(accessToken);
+                            instance.loadProfile();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        });
+    }
+
     public void loadProfile() {
         if (token == null) {
-            Log.d("HTTP", "You need to get an access token first!");
+            Log.d("SPOTIFY:HTTP", "You need to get an access token first!");
             return;
         }
 
@@ -107,40 +137,30 @@ public class Spotify {
         mCall.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.d("HTTP", "Failed to fetch data: " + e);
+                Log.d("SPOTIFY:HTTP", "Failed to fetch data: " + e);
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 try {
                     setProfile(new JSONObject(response.body().string()));
-                    Log.d("JSON", profile.toString(3));
+                    Log.d("SPOTIFY", profile.toString(3));
                 } catch (JSONException e) {
-                    Log.d("JSON", "Failed to parse data: " + e);
+                    Log.d("SPOTIFY:JSON", "Failed to parse data: " + e);
                 }
             }
         });
     }
 
-    /**
-     * Get authentication request
-     *
-     * @param type the type of the request
-     * @return the authentication request
-     */
     private AuthorizationRequest getAuthenticationRequest(AuthorizationResponse.Type type) {
         return new AuthorizationRequest.Builder(CLIENT_ID, type, getRedirectUri().toString())
                 .setShowDialog(false)
-                .setScopes(new String[] { "user-read-email" }) // <--- Change the scope of your requested token here
+                .setScopes(new String[] { "user-read-email", "user-top-read", "user-read-recently-played" })
                 .setCampaign("your-campaign-token")
                 .build();
     }
 
-    /**
-     * Gets the redirect Uri for Spotify
-     *
-     * @return redirect Uri object
-     */
+
     private Uri getRedirectUri() {
         return Uri.parse(REDIRECT_URI);
     }

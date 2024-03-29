@@ -47,9 +47,9 @@ public class ConnectFragment extends Fragment implements ProfileListener {
 
         Spotify spotifyInstance = new Spotify();
 
-        Button tokenBtn = view.findViewById(R.id.connectButton);
-        tokenBtn.setOnClickListener((v) -> {
-            spotifyInstance.loadToken(getActivity());
+        Button codeBtn = view.findViewById(R.id.connectButton);
+        codeBtn.setOnClickListener((v) -> {
+            spotifyInstance.loadCode(getActivity());
         });
 
         Spotify.setProfileListener(this);
