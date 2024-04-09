@@ -20,6 +20,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.wrapped.databinding.ActivityMainBinding;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.spotify.sdk.android.auth.AuthorizationClient;
 import com.spotify.sdk.android.auth.AuthorizationResponse;
 
@@ -29,6 +31,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private ActivityMainBinding binding;
     private DrawerLayout drawer;
     private NavController navController;
+
+    FirebaseAuth mAuth;
+
+    FirebaseUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +63,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
         navigationView.setNavigationItemSelectedListener(this);
+
+        mAuth = FirebaseAuth.getInstance();
+        currentUser = mAuth.getCurrentUser();
     }
 
     @Override
@@ -94,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         final AuthorizationResponse response = AuthorizationClient.getResponse(resultCode, data);
 
         if (Spotify.AUTH_CODE_REQUEST_CODE == requestCode) {
-            Spotify.setCode(response.getCode());
+            Spotify.setCode(currentUser.getUid(),response.getCode());
             Spotify.instance.loadToken(this);
         }
     }
