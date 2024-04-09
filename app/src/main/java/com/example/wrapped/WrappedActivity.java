@@ -17,8 +17,14 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.wrapped.ui.wrapped.ArtistFragment;
+import com.example.wrapped.ui.wrapped.GenreFragment;
+import com.example.wrapped.ui.wrapped.IntroFragment;
+import com.example.wrapped.ui.wrapped.OverallFragment;
+import com.example.wrapped.ui.wrapped.PersonalityFragment;
 import com.example.wrapped.ui.wrapped.PlaceholderFragment;
 import com.example.wrapped.ui.wrapped.PlaceholderFragment2;
+import com.example.wrapped.ui.wrapped.SongFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.File;
@@ -35,7 +41,7 @@ public class WrappedActivity extends AppCompatActivity {
     private ViewPager2 viewPager;
     private FragmentStateAdapter pagerAdapter;
     private StoriesProgressBar progressBar;
-    private final int numberOfPages = 5;
+    private final int numberOfPages = 7;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -167,10 +173,25 @@ public class WrappedActivity extends AppCompatActivity {
         @NonNull
         @Override
         public Fragment createFragment(int position) {
-            if (position == numberOfPages - 1) {
-                return new PlaceholderFragment2();
+            switch (position) {
+                case 0:
+                    return new IntroFragment();
+                case 1:
+                    return new GenreFragment();
+                case 2:
+                    return new ArtistFragment();
+                case 3:
+                    return new SongFragment();
+                case 4:
+                    return new PersonalityFragment();
+                case 5:
+                    return new OverallFragment();
+                case 6:
+                    return new PlaceholderFragment2();
+                default:
+                    return new PlaceholderFragment();
+
             }
-            return new PlaceholderFragment();
         }
 
         @Override

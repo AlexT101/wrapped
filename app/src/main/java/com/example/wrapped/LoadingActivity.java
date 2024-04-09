@@ -13,9 +13,9 @@ import android.widget.TextView;
 
 public class LoadingActivity extends Activity {
 
-    final int loadingDuration = 3000;
+    final int loadingDuration = 2000;
     final int transitionDuration = 200;
-    final int readyDuration = 800;
+    final int readyDuration = 400;
 
     private ProgressBar progressBar;
     private TextView loadingTextView;

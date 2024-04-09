@@ -6,18 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".WrappedActivity">
 
-    <com.example.wrapped.StoriesProgressBar
-        android:id="@+id/storiesProgress"
-        android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:layout_marginTop="8dp"/>
-
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/storiesProgress"
         android:layout_marginTop="-37dp" />
+
+    <com.example.wrapped.StoriesProgressBar
+        android:id="@+id/storiesProgress"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_marginTop="0dp"/>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/fabGroup"
@@ -44,6 +44,10 @@
             android:layout_marginBottom="104dp"
             android:layout_marginEnd="80dp"
             android:text="@string/wrapped_download"
+            android:textColor="@color/white"
+            android:background="@color/black"
+            android:paddingVertical="3dp"
+            android:paddingHorizontal="6dp"
             android:visibility="gone"
             />
 
@@ -67,6 +71,10 @@
             android:layout_marginBottom="174dp"
             android:layout_marginEnd="80dp"
             android:text="@string/wrapped_share"
+            android:textColor="@color/white"
+            android:background="@color/black"
+            android:paddingVertical="3dp"
+            android:paddingHorizontal="6dp"
             android:visibility="gone"
             />
 

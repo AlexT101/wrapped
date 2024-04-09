@@ -25,9 +25,9 @@ public class StoriesProgressBar extends View {
 
     private void init() {
         paint.setStrokeWidth(8);
-        paint.setColor(0xFF555555); // Set the desired color for the segments
+        paint.setColor(0xFFFFFFFF); // Set the desired color for the filled segments
         gapPaint.setStrokeWidth(8);
-        gapPaint.setColor(0xFFDDDDDD); // Lighter color for gaps
+        gapPaint.setColor(0xFF303030); // Darker color for the unfilled segments
     }
 
     @Override

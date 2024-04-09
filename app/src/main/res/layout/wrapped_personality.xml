@@ -10,7 +10,7 @@
         android:id="@+id/header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="70dp"
         android:text="@string/personalityHeader"
         android:textColor="@color/white"
         android:textSize="20dp"
