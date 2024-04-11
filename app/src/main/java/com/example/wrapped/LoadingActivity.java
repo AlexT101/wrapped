@@ -62,8 +62,8 @@ public class LoadingActivity extends Activity {
 
 
     private void spotifyAPICall() {
-        Spotify.instance.fetchTopTracks();
         Spotify.instance.fetchTopArtists();
+        Spotify.instance.fetchTopTracks();
         checkAnimation();
     }
 }
