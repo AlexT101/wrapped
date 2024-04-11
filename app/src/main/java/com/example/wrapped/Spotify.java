@@ -328,4 +328,39 @@ public class Spotify {
             }
         });
     }
+    public void transferPlayback(String accessToken, String deviceId, boolean play) {
+        OkHttpClient client = new OkHttpClient();
+        String url = "https://api.spotify.com/v1/me/player";
+
+        // Create JSON payload
+        String jsonPayload = "{\"device_ids\":[\"" + deviceId + "\"], \"play\":" + play + "}";
+        RequestBody body = RequestBody.create(
+                jsonPayload,
+                MediaType.parse("application/json; charset=utf-8")
+        );
+
+        // Create request
+        Request request = new Request.Builder()
+                .url(url)
+                .put(body)
+                .addHeader("Authorization", "Bearer " + accessToken)
+                .build();
+
+        // Perform request
+        client.newCall(request).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(okhttp3.Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(okhttp3.Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    // Handle successful transfer
+                } else {
+                    // Handle error
+                }
+            }
+        });
+    }
 }
