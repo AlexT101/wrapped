@@ -1,6 +1,7 @@
 package com.example.wrapped.ui.wrapped;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -144,7 +145,13 @@ public class IntroFragment extends Fragment {
 
             @Override
             public void onResponse(okhttp3.Call call, Response response) throws IOException {
-                // Handle the response
+                if (response.isSuccessful()) {
+                    // Playback transfer was successful
+                    Log.d("IntroFragment", "Playback started on device with ID: " + deviceId);
+                } else {
+                    // Handle errors
+                    Log.e("IntroFragment", "Failed to start playback: " + response.code() + " - " + response.message());
+                }
             }
         });
     }
