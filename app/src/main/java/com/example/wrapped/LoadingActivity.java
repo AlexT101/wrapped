@@ -5,11 +5,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.app.Activity;
 import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import org.json.JSONObject;
 
 public class LoadingActivity extends Activity {
 
@@ -59,14 +62,22 @@ public class LoadingActivity extends Activity {
 
 
     private void spotifyAPICall() {
-        new Handler(Looper.getMainLooper()).postDelayed(() -> {
+        Spotify.instance.fetchTopItems(this, "tracks", new Spotify.TopItemsListener() {
+            @Override
+            public void onSuccess(JSONObject topItems) {
+                // Pass the fetched data to the next activity
+                Intent intent = new Intent(LoadingActivity.this, WrappedActivity.class);
+                intent.putExtra("top_tracks", topItems.toString());
+                startActivity(intent);
+                finish();
+            }
 
-            /**
-             * REPLACE THIS WITH ACTUAL SPOTIFY API CALL AND REMOVE DELAY
-             */
-
-            checkAnimation();
-        }, loadingDuration);
-
+            @Override
+            public void onFailure(Exception e) {
+                Log.e("LoadingActivity", "Error fetching top tracks: " + e.getMessage());
+                // Handle failure
+            }
+        });
     }
 }
+

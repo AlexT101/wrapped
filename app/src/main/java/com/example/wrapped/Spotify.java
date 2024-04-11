@@ -180,4 +180,48 @@ public class Spotify {
             profileListener.onProfileUpdate(profile);
         }
     }
+
+    public void fetchTopItems(Activity contextActivity, String itemType, final TopItemsListener listener) {
+        if (token == null) {
+            Log.d("SPOTIFY:HTTP", "You need to get an access token first!");
+            return;
+        }
+
+        String endpointUrl = "https://api.spotify.com/v1/me/top/" + itemType; // itemType can be "tracks" or "artists"
+
+        final Request request = new Request.Builder()
+                .url(endpointUrl)
+                .addHeader("Authorization", "Bearer " + token)
+                .build();
+
+        cancelCall();
+        mCall = mOkHttpClient.newCall(request);
+
+        mCall.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("SPOTIFY:HTTP", "Failed to fetch top items: " + e);
+                contextActivity.runOnUiThread(() -> listener.onFailure(e));
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String jsonResponse = response.body().string();
+                contextActivity.runOnUiThread(() -> {
+                    try {
+                        JSONObject jsonObject = new JSONObject(jsonResponse);
+                        listener.onSuccess(jsonObject);
+                    } catch (JSONException e) {
+                        Log.d("SPOTIFY:JSON", "Failed to parse top items JSON: " + e);
+                        listener.onFailure(e);
+                    }
+                });
+            }
+        });
+    }
+
+    public interface TopItemsListener {
+        void onSuccess(JSONObject topItems);
+        void onFailure(Exception e);
+    }
 }
