@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.net.Uri;
 import android.util.Log;
 
+import com.example.wrapped.ui.wrapped.IntroFragment;
 import com.spotify.sdk.android.auth.AuthorizationClient;
 import com.spotify.sdk.android.auth.AuthorizationRequest;
 import com.spotify.sdk.android.auth.AuthorizationResponse;
@@ -13,6 +14,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -179,7 +182,7 @@ public class Spotify {
     private AuthorizationRequest getAuthenticationRequest(AuthorizationResponse.Type type) {
         return new AuthorizationRequest.Builder(CLIENT_ID, type, getRedirectUri().toString())
                 .setShowDialog(false)
-                .setScopes(new String[] { "user-read-email", "user-top-read", "user-read-recently-played", "user-read-currently-playing"})
+                .setScopes(new String[] { "user-read-email", "user-top-read", "user-read-recently-played", "user-modify-playback-state"})
                 .setCampaign("your-campaign-token")
                 .build();
     }
@@ -359,6 +362,47 @@ public class Spotify {
                     // Handle successful transfer
                 } else {
                     // Handle error
+                }
+            }
+        });
+    }
+
+    private void fetchActiveDevice(IntroFragment.DeviceIdConsumer onDevicesFetched) {
+        OkHttpClient client = new OkHttpClient();
+        String url = "https://api.spotify.com/v1/me/player/devices";
+
+        Request request = new Request.Builder()
+                .url(url)
+                .addHeader("Authorization", "Bearer " + token)
+                .build();
+
+        client.newCall(request).enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(okhttp3.Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(okhttp3.Call call, Response response) throws IOException {
+                try {
+                    String responseData = response.body().string();
+                    JSONObject jsonObject = new JSONObject(responseData);
+                    JSONArray devicesArray = jsonObject.getJSONArray("devices");
+                    List<String> deviceIds = new ArrayList<>();
+
+                    for (int i = 0; i < devicesArray.length(); i++) {
+                        JSONObject deviceObject = devicesArray.getJSONObject(i);
+                        if (deviceObject.getBoolean("is_active")) {
+                            deviceIds.add(deviceObject.getString("id"));
+                            break; // Break after finding the first active device
+                        }
+                    }
+
+                    if (!deviceIds.isEmpty()) {
+                        onDevicesFetched.accept(deviceIds);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
             }
         });

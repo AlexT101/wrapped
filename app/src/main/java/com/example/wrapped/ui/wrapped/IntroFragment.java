@@ -66,60 +66,33 @@ public class IntroFragment extends Fragment {
             e.printStackTrace();
         }
 
-        // Get the user's active devices
-        String finalAccessToken = accessToken;
-        String finalTopTrackId = topTrackId;
-        fetchActiveDevice(accessToken, new DeviceIdConsumer() {
-            @Override
-            public void accept(List<String> deviceIds) {
-                // If there are active devices, transfer playback to the first one and start playback
-                if (!deviceIds.isEmpty()) {
-                    transferPlaybackAndStartSong(finalAccessToken, deviceIds.get(0), finalTopTrackId);
-                }
-            }
-        });
+        fetchPlayingSong();
     }
 
-    private void fetchActiveDevice(String accessToken, DeviceIdConsumer onDevicesFetched) {
-        OkHttpClient client = new OkHttpClient();
-        String url = "https://api.spotify.com/v1/me/player/devices";
+    private void fetchPlayingSong() {
+        JSONObject topTracks = Spotify.getTracks();
+        if (topTracks != null) {
+            try {
+                JSONArray items = topTracks.getJSONArray("items");
+                if (items.length() > 0) {
+                    JSONObject topTrack = items.getJSONObject(0);
+                    JSONObject album = topTrack.getJSONObject("album");
+                    String uri = album.getString("uri");
+                    Log.d("uri", uri);
 
-        Request request = new Request.Builder()
-                .url(url)
-                .addHeader("Authorization", "Bearer " + accessToken)
-                .build();
-
-        client.newCall(request).enqueue(new okhttp3.Callback() {
-            @Override
-            public void onFailure(okhttp3.Call call, IOException e) {
+                    String requestBody = "{\n" +
+                            "    \"context_uri\": \"" + uri + "\",\n" +
+                            "    \"position_ms\": 0\n" +
+                            "}";
+                    Spotify.playSong(requestBody);
+                }
+            } catch (Exception e) {
                 e.printStackTrace();
             }
-
-            @Override
-            public void onResponse(okhttp3.Call call, Response response) throws IOException {
-                try {
-                    String responseData = response.body().string();
-                    JSONObject jsonObject = new JSONObject(responseData);
-                    JSONArray devicesArray = jsonObject.getJSONArray("devices");
-                    List<String> deviceIds = new ArrayList<>();
-
-                    for (int i = 0; i < devicesArray.length(); i++) {
-                        JSONObject deviceObject = devicesArray.getJSONObject(i);
-                        if (deviceObject.getBoolean("is_active")) {
-                            deviceIds.add(deviceObject.getString("id"));
-                            break; // Break after finding the first active device
-                        }
-                    }
-
-                    if (!deviceIds.isEmpty()) {
-                        onDevicesFetched.accept(deviceIds);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        }
     }
+
+
 
     private void transferPlaybackAndStartSong(String accessToken, String deviceId, String trackId) {
         OkHttpClient client = new OkHttpClient();

@@ -57,14 +57,14 @@ public class SongFragment extends Fragment {
                 JSONArray items = topTracks.getJSONArray("items");
                 if (items.length() > 0) {
                     JSONObject topTrack = items.getJSONObject(0);
-                    String uri = topTrack.getString("uri");
+                    JSONObject album = topTrack.getJSONObject("album");
+                    String uri = album.getString("uri");
                     Log.d("uri", uri);
 
                     String requestBody = "{\n" +
-                            "    \"context_uri\": \"spotify:track:6mxsd0LQt2qk2rpLEqlCJw\",\n" +
+                            "    \"context_uri\": \"" + uri + "\",\n" +
                             "    \"position_ms\": 0\n" +
                             "}";
-
                     Spotify.playSong(requestBody);
                 }
             } catch (Exception e) {
