@@ -24,12 +24,6 @@ public class GenreFragment extends Fragment {
 
     private TextView topGenreTextView;
 
-    private TextView genre1_middle;
-    private TextView genre2_middle;
-    private TextView genre3_middle;
-    private TextView genre4_middle;
-    private TextView genre5_middle;
-
 
     public GenreFragment() {
     }
@@ -41,22 +35,12 @@ public class GenreFragment extends Fragment {
 
         topGenreTextView = rootView.findViewById(R.id.Top_genre);
 
-        genre1_middle = rootView.findViewById(R.id.genre1_middle);
-
-        genre2_middle = rootView.findViewById(R.id.genre2_middle);
-
-        genre3_middle = rootView.findViewById(R.id.genre3_middle);
-
-        genre4_middle = rootView.findViewById(R.id.genre4_middle);
-
-        genre5_middle = rootView.findViewById(R.id.genre5_middle);
-
-        displayTopGenres();
+        displayTopGenre();
 
         return rootView;
     }
-    private void displayTopGenres() {
-        JSONObject topArtists = Spotify.getArtists();
+    private void displayTopGenre() {
+        JSONObject topArtists = Spotify.getArtists();  // Get top artists data
         if (topArtists == null) {
             return;
         }
@@ -75,18 +59,10 @@ public class GenreFragment extends Fragment {
                 }
             }
 
-            // Sort genres by count and ensure uniqueness
-            List<String> sortedGenres = genreCount.entrySet().stream()
-                    .sorted(Map.Entry.<String, Integer>comparingByValue().reversed())
-                    .map(Map.Entry::getKey)
-                    .collect(Collectors.toList());
+            // Find the most common genre
+            String topGenre = Collections.max(genreCount.entrySet(), Map.Entry.comparingByValue()).getKey();
 
-            // Display the top genres in their respective TextViews
-            TextView[] genreViews = {topGenreTextView, genre1_middle, genre2_middle, genre3_middle, genre4_middle, genre5_middle};
-
-            for (int i = 0; i < Math.min(sortedGenres.size(), genreViews.length); i++) {
-                genreViews[i].setText(sortedGenres.get(i));
-            }
+            topGenreTextView.setText(topGenre);
         } catch (JSONException e) {
             e.printStackTrace();
         }
