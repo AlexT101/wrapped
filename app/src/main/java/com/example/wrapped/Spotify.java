@@ -8,6 +8,7 @@ import com.spotify.sdk.android.auth.AuthorizationClient;
 import com.spotify.sdk.android.auth.AuthorizationRequest;
 import com.spotify.sdk.android.auth.AuthorizationResponse;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -15,6 +16,7 @@ import java.io.IOException;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -46,7 +48,7 @@ public class Spotify {
 
     private static ArtistsListener artistsListener;
 
-    private final OkHttpClient mOkHttpClient = new OkHttpClient();
+    private final static OkHttpClient mOkHttpClient = new OkHttpClient();
     private Call mCall;
 
     public static String getCode() {
@@ -177,7 +179,7 @@ public class Spotify {
     private AuthorizationRequest getAuthenticationRequest(AuthorizationResponse.Type type) {
         return new AuthorizationRequest.Builder(CLIENT_ID, type, getRedirectUri().toString())
                 .setShowDialog(false)
-                .setScopes(new String[] { "user-read-email", "user-top-read", "user-read-recently-played" })
+                .setScopes(new String[] { "user-read-email", "user-top-read", "user-read-recently-played", "user-read-currently-playing"})
                 .setCampaign("your-campaign-token")
                 .build();
     }
@@ -256,6 +258,8 @@ public class Spotify {
     }
 
 
+
+
     public void fetchTopArtists() {
         if (token == null) {
             Log.d("SPOTIFY:HTTP", "You need to get an access token first!");
@@ -266,6 +270,42 @@ public class Spotify {
 
         final Request request = new Request.Builder()
                 .url(endpointUrl)
+                .addHeader("Authorization", "Bearer " + token)
+                .build();
+
+        Call call = mOkHttpClient.newCall(request);
+
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("SPOTIFY:HTTP", "Failed to fetch top tracks: " + e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    setArtists(new JSONObject(response.body().string()));
+                    Log.d("SPOTIFY", artists.toString(3));
+                } catch (JSONException e) {
+                    Log.d("SPOTIFY:JSON", "Failed to parse top tracks JSON: " + e);
+                }
+            }
+        });
+    }
+
+    public static void playSong(String playerInfo) {
+        if (token == null) {
+            Log.d("SPOTIFY:HTTP", "You need to get an access token first!");
+            return;
+        }
+
+        String endpointUrl = "https://api.spotify.com/v1/me/player/play";
+        MediaType mediaType = MediaType.parse("application/json");
+        final RequestBody requestBody =  RequestBody.create(mediaType, playerInfo);
+
+        final Request request = new Request.Builder()
+                .url(endpointUrl)
+                .put(requestBody)
                 .addHeader("Authorization", "Bearer " + token)
                 .build();
 

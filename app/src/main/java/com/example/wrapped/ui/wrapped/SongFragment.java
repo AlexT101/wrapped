@@ -23,6 +23,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+
 public class SongFragment extends Fragment {
 
     private TextView topTrackName;
@@ -44,9 +45,35 @@ public class SongFragment extends Fragment {
 
 
         displayTopTrack();
+        fetchPlayingSong();
 
         return rootView;
     }
+
+    private void fetchPlayingSong() {
+        JSONObject topTracks = Spotify.getTracks();
+        if (topTracks != null) {
+            try {
+                JSONArray items = topTracks.getJSONArray("items");
+                if (items.length() > 0) {
+                    JSONObject topTrack = items.getJSONObject(0);
+                    String uri = topTrack.getString("uri");
+                    Log.d("uri", uri);
+
+                    String requestBody = "{\n" +
+                            "    \"context_uri\": \"spotify:track:6mxsd0LQt2qk2rpLEqlCJw\",\n" +
+                            "    \"position_ms\": 0\n" +
+                            "}";
+
+                    Spotify.playSong(requestBody);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
 
     private void displayTopTrack() {
         JSONObject topTracks = Spotify.getTracks();
@@ -59,7 +86,7 @@ public class SongFragment extends Fragment {
                     JSONObject album = topTrack.getJSONObject("album");
                     JSONArray images = album.getJSONArray("images");
                     String imageUrl = images.length() > 0 ? images.getJSONObject(0).getString("url") : null;
-                    Log.d("Top Track", name);
+                    //Log.d("Top Track", name);
                     JSONArray artists = topTrack.getJSONArray("artists");
                     StringBuilder artistNames = new StringBuilder();
                     for (int i = 0; i < artists.length(); i++) {
@@ -106,5 +133,7 @@ public class SongFragment extends Fragment {
         protected void onPostExecute(Bitmap result) {
             imageView.setImageBitmap(result);
         }
+
+
     }
 }
