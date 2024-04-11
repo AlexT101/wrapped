@@ -38,9 +38,13 @@ public class Spotify {
 
     private static JSONObject tracks;
 
+    private static JSONObject artists;
+
     private static ProfileListener profileListener;
 
     private static TracksListener tracksListener;
+
+    private static ArtistsListener artistsListener;
 
     private final OkHttpClient mOkHttpClient = new OkHttpClient();
     private Call mCall;
@@ -75,6 +79,13 @@ public class Spotify {
     public static void setTracks(JSONObject newTracks) {
         tracks = newTracks;
         notifyTracksUpdated();
+    }
+
+    public static JSONObject getArtists(){return artists;}
+
+    public static void setArtists(JSONObject newArtists) {
+        artists = newArtists;
+        notifyArtistsUpdated();
     }
 
     public void loadCode(Activity contextActivity) {
@@ -198,7 +209,17 @@ public class Spotify {
 
     private static void notifyTracksUpdated() {
         if (tracksListener != null) {
-            tracksListener.onTracksUpdate((tracks));
+            tracksListener.onTracksUpdate(tracks);
+        }
+    }
+
+    public static void setArtistsListener(ArtistsListener artists) {
+        artistsListener = artists;
+    }
+
+    private static void notifyArtistsUpdated() {
+        if (artistsListener != null) {
+            artistsListener.onArtistsUpdate(artists);
         }
     }
 
@@ -208,7 +229,7 @@ public class Spotify {
             return;
         }
 
-        String endpointUrl = "https://api.spotify.com/v1/me/top/tracks"; // itemType can be "tracks" or "artists"
+        String endpointUrl = "https://api.spotify.com/v1/me/top/tracks";
 
         final Request request = new Request.Builder()
                 .url(endpointUrl)
@@ -221,7 +242,7 @@ public class Spotify {
         mCall.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.d("SPOTIFY:HTTP", "Failed to fetch top items: " + e);
+                Log.d("SPOTIFY:HTTP", "Failed to fetch top tracks: " + e);
             }
 
             @Override
@@ -230,14 +251,43 @@ public class Spotify {
                     setTracks(new JSONObject(response.body().string()));
                     Log.d("SPOTIFY", tracks.toString(3));
                 } catch (JSONException e) {
-                    Log.d("SPOTIFY:JSON", "Failed to parse top items JSON: " + e);
+                    Log.d("SPOTIFY:JSON", "Failed to parse top tracks JSON: " + e);
                 }
             }
         });
     }
 
-    public interface TopItemsListener {
-        void onSuccess(JSONObject topItems);
-        void onFailure(Exception e);
+    public void fetchTopArtists() {
+        if (token == null) {
+            Log.d("SPOTIFY:HTTP", "You need to get an access token first!");
+            return;
+        }
+
+        String endpointUrl = "https://api.spotify.com/v1/me/top/artists";
+
+        final Request request = new Request.Builder()
+                .url(endpointUrl)
+                .addHeader("Authorization", "Bearer " + token)
+                .build();
+
+        cancelCall();
+        mCall = mOkHttpClient.newCall(request);
+
+        mCall.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("SPOTIFY:HTTP", "Failed to fetch top tracks: " + e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    setArtists(new JSONObject(response.body().string()));
+                    Log.d("SPOTIFY", artists.toString(3));
+                } catch (JSONException e) {
+                    Log.d("SPOTIFY:JSON", "Failed to parse top tracks JSON: " + e);
+                }
+            }
+        });
     }
 }
