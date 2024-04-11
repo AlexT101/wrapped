@@ -230,16 +230,14 @@ public class Spotify {
         }
 
         String endpointUrl = "https://api.spotify.com/v1/me/top/tracks";
-
-        final Request request = new Request.Builder()
+        Request request = new Request.Builder()
                 .url(endpointUrl)
                 .addHeader("Authorization", "Bearer " + token)
                 .build();
 
-        cancelCall();
-        mCall = mOkHttpClient.newCall(request);
+        Call call = mOkHttpClient.newCall(request);  // Use a local variable instead of mCall
 
-        mCall.enqueue(new Callback() {
+        call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.d("SPOTIFY:HTTP", "Failed to fetch top tracks: " + e);
@@ -257,6 +255,7 @@ public class Spotify {
         });
     }
 
+
     public void fetchTopArtists() {
         if (token == null) {
             Log.d("SPOTIFY:HTTP", "You need to get an access token first!");
@@ -270,10 +269,9 @@ public class Spotify {
                 .addHeader("Authorization", "Bearer " + token)
                 .build();
 
-        cancelCall();
-        mCall = mOkHttpClient.newCall(request);
+        Call call = mOkHttpClient.newCall(request);
 
-        mCall.enqueue(new Callback() {
+        call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.d("SPOTIFY:HTTP", "Failed to fetch top tracks: " + e);

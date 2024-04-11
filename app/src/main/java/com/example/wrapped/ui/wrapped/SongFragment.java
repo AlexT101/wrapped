@@ -44,6 +44,7 @@ public class SongFragment extends Fragment {
                 if (items.length() > 0) {
                     JSONObject topTrack = items.getJSONObject(0);
                     String name = topTrack.getString("name");
+                    Log.d("Top Track", name);
                     JSONArray artists = topTrack.getJSONArray("artists");
                     StringBuilder artistNames = new StringBuilder();
                     for (int i = 0; i < artists.length(); i++) {

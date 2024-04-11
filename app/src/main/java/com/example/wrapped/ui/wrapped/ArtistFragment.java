@@ -1,6 +1,7 @@
 package com.example.wrapped.ui.wrapped;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,11 +43,11 @@ public class ArtistFragment extends Fragment {
                     String name = topArtist.getString("name");
                     JSONArray genres = topArtist.getJSONArray("genres");
                     StringBuilder genresList = new StringBuilder();
+                    Log.d("Top Artist", name);
                     for (int i = 0; i < genres.length(); i++) {
                         if (i > 0) genresList.append(", ");
                         genresList.append(genres.getString(i));
                     }
-
                     topArtistName.setText(name);
                     topArtistGenres.setText(genresList.toString());
                 }
