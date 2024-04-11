@@ -36,7 +36,11 @@ public class Spotify {
     private static String token;
     private static JSONObject profile;
 
+    private static JSONObject tracks;
+
     private static ProfileListener profileListener;
+
+    private static TracksListener tracksListener;
 
     private final OkHttpClient mOkHttpClient = new OkHttpClient();
     private Call mCall;
@@ -64,6 +68,13 @@ public class Spotify {
     public static void setProfile(JSONObject newProfile) {
         profile = newProfile;
         notifyProfileUpdated();
+    }
+
+    public static JSONObject getTracks() {return tracks;}
+
+    public static void setTracks(JSONObject newTracks) {
+        tracks = newTracks;
+        notifyTracksUpdated();
     }
 
     public void loadCode(Activity contextActivity) {
@@ -181,13 +192,23 @@ public class Spotify {
         }
     }
 
-    public void fetchTopItems(Activity contextActivity, String itemType, final TopItemsListener listener) {
+    public static void setTracksListener(TracksListener tracks) {
+        tracksListener = tracks;
+    }
+
+    private static void notifyTracksUpdated() {
+        if (tracksListener != null) {
+            tracksListener.onTracksUpdate((tracks));
+        }
+    }
+
+    public void fetchTopTracks() {
         if (token == null) {
             Log.d("SPOTIFY:HTTP", "You need to get an access token first!");
             return;
         }
 
-        String endpointUrl = "https://api.spotify.com/v1/me/top/" + itemType; // itemType can be "tracks" or "artists"
+        String endpointUrl = "https://api.spotify.com/v1/me/top/tracks"; // itemType can be "tracks" or "artists"
 
         final Request request = new Request.Builder()
                 .url(endpointUrl)
@@ -201,21 +222,16 @@ public class Spotify {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.d("SPOTIFY:HTTP", "Failed to fetch top items: " + e);
-                contextActivity.runOnUiThread(() -> listener.onFailure(e));
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                final String jsonResponse = response.body().string();
-                contextActivity.runOnUiThread(() -> {
-                    try {
-                        JSONObject jsonObject = new JSONObject(jsonResponse);
-                        listener.onSuccess(jsonObject);
-                    } catch (JSONException e) {
-                        Log.d("SPOTIFY:JSON", "Failed to parse top items JSON: " + e);
-                        listener.onFailure(e);
-                    }
-                });
+                try {
+                    setTracks(new JSONObject(response.body().string()));
+                    Log.d("SPOTIFY", tracks.toString(3));
+                } catch (JSONException e) {
+                    Log.d("SPOTIFY:JSON", "Failed to parse top items JSON: " + e);
+                }
             }
         });
     }

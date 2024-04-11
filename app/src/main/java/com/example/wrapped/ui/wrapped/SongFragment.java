@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import com.example.wrapped.R;
+import com.example.wrapped.Spotify;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -30,34 +31,32 @@ public class SongFragment extends Fragment {
         topTrackName = rootView.findViewById(R.id.songTitle);
         topTrackArtist = rootView.findViewById(R.id.songArtist);
 
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            String topTracksJson = bundle.getString("top_tracks");
-            displayTopTrack(topTracksJson);
-        }
+        displayTopTrack();
 
         return rootView;
     }
 
-    private void displayTopTrack(String topTracksJson) {
-        try {
-            JSONObject jsonObject = new JSONObject(topTracksJson);
-            JSONArray items = jsonObject.getJSONArray("items");
-            if (items.length() > 0) {
-                JSONObject topTrack = items.getJSONObject(0);
-                String name = topTrack.getString("name");
-                JSONArray artists = topTrack.getJSONArray("artists");
-                StringBuilder artistNames = new StringBuilder();
-                for (int i = 0; i < artists.length(); i++) {
-                    if (i > 0) artistNames.append(", ");
-                    artistNames.append(artists.getJSONObject(i).getString("name"));
-                }
+    private void displayTopTrack() {
+        JSONObject topTracks = Spotify.getTracks();
+        if (topTracks != null) {
+            try {
+                JSONArray items = topTracks.getJSONArray("items");
+                if (items.length() > 0) {
+                    JSONObject topTrack = items.getJSONObject(0);
+                    String name = topTrack.getString("name");
+                    JSONArray artists = topTrack.getJSONArray("artists");
+                    StringBuilder artistNames = new StringBuilder();
+                    for (int i = 0; i < artists.length(); i++) {
+                        if (i > 0) artistNames.append(", ");
+                        artistNames.append(artists.getJSONObject(i).getString("name"));
+                    }
 
-                topTrackName.setText(name);
-                topTrackArtist.setText(artistNames.toString());
+                    topTrackName.setText(name);
+                    topTrackArtist.setText(artistNames.toString());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            Log.e("SongFragment", "Error parsing top tracks data", e);
         }
     }
 }

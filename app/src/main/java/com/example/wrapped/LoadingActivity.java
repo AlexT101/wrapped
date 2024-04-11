@@ -62,22 +62,8 @@ public class LoadingActivity extends Activity {
 
 
     private void spotifyAPICall() {
-        Spotify.instance.fetchTopItems(this, "tracks", new Spotify.TopItemsListener() {
-            @Override
-            public void onSuccess(JSONObject topItems) {
-                // Pass the fetched data to the next activity
-                Intent intent = new Intent(LoadingActivity.this, WrappedActivity.class);
-                intent.putExtra("top_tracks", topItems.toString());
-                startActivity(intent);
-                finish();
-            }
-
-            @Override
-            public void onFailure(Exception e) {
-                Log.e("LoadingActivity", "Error fetching top tracks: " + e.getMessage());
-                // Handle failure
-            }
-        });
+        Spotify.instance.fetchTopTracks();
+        checkAnimation();
     }
 }
 
