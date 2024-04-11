@@ -1,9 +1,14 @@
 package com.example.wrapped.ui.wrapped;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -13,6 +18,10 @@ import com.example.wrapped.Spotify;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class OverallFragment extends Fragment {
     private TextView number1_song;
@@ -28,6 +37,9 @@ public class OverallFragment extends Fragment {
     private TextView number4_artist;
     private TextView number5_artist;
 
+    private TextView topGenre;
+    private ImageView albumCover;
+
     public OverallFragment() {
     }
 
@@ -42,20 +54,26 @@ public class OverallFragment extends Fragment {
         number4_song = rootView.findViewById(R.id.number4_song);
         number5_song = rootView.findViewById(R.id.number5_song);
 
-        // Initialize TextViews for artists
         number1_artist = rootView.findViewById(R.id.number1_artist);
         number2_artist = rootView.findViewById(R.id.number2_artist);
         number3_artist = rootView.findViewById(R.id.number3_artist);
         number4_artist = rootView.findViewById(R.id.number4_artist);
         number5_artist = rootView.findViewById(R.id.number5_artist);
 
+        topGenre = rootView.findViewById(R.id.overall_genre);
+        albumCover = rootView.findViewById(R.id.overall_album_cover);
+
         displayTopItems();
 
         return rootView;
     }
+
     private void displayTopItems() {
-        displayTopTracks(Spotify.getTracks());
+        JSONObject tracks = Spotify.getTracks();
+        displayTopTracks(tracks);
         displayTopArtists(Spotify.getArtists());
+        displayAlbumCover(tracks);
+        displayTopGenre(tracks);
     }
 
     private void displayTopTracks(JSONObject tracks) {
@@ -85,6 +103,75 @@ public class OverallFragment extends Fragment {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void displayTopGenre(JSONObject tracks) {
+        try {
+            JSONArray items = tracks.getJSONArray("items");
+            if (items.length() > 0) {
+                JSONObject topTrack = items.getJSONObject(0);
+                JSONArray artists = topTrack.getJSONArray("artists");
+                if (artists.length() > 0) {
+                    JSONObject artist = artists.getJSONObject(0);
+                    JSONArray genres = artist.getJSONArray("genres");
+                    if (genres.length() > 0) {
+                        String genre = genres.getString(0);
+                        topGenre.setText(genre);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    private void displayAlbumCover(JSONObject tracks) {
+        try {
+            JSONArray items = tracks.getJSONArray("items");
+            if (items.length() > 0) {
+                JSONObject topTrack = items.getJSONObject(0);
+                JSONObject album = topTrack.getJSONObject("album");
+                JSONArray images = album.getJSONArray("images");
+                String imageUrl = images.length() > 0 ? images.getJSONObject(0).getString("url") : null;
+
+                if (imageUrl != null) {
+                    new ImageLoadTask(imageUrl, albumCover).execute();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static class ImageLoadTask extends AsyncTask<String, Void, Bitmap> {
+        private final String url;
+        private final ImageView imageView;
+
+        public ImageLoadTask(String url, ImageView imageView) {
+            this.url = url;
+            this.imageView = imageView;
+        }
+
+        @Override
+        protected Bitmap doInBackground(String... strings) {
+            try {
+                URL imageUrl = new URL(url);
+                HttpURLConnection connection = (HttpURLConnection) imageUrl.openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                return BitmapFactory.decodeStream(input);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap result) {
+            imageView.setImageBitmap(result);
         }
     }
 }
