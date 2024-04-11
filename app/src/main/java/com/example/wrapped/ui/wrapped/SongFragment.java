@@ -45,32 +45,7 @@ public class SongFragment extends Fragment {
 
 
         displayTopTrack();
-        fetchPlayingSong();
-
         return rootView;
-    }
-
-    private void fetchPlayingSong() {
-        JSONObject topTracks = Spotify.getTracks();
-        if (topTracks != null) {
-            try {
-                JSONArray items = topTracks.getJSONArray("items");
-                if (items.length() > 0) {
-                    JSONObject topTrack = items.getJSONObject(0);
-                    JSONObject album = topTrack.getJSONObject("album");
-                    String uri = album.getString("uri");
-                    Log.d("uri", uri);
-
-                    String requestBody = "{\n" +
-                            "    \"context_uri\": \"" + uri + "\",\n" +
-                            "    \"position_ms\": 0\n" +
-                            "}";
-                    Spotify.playSong(requestBody);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
     }
 
 
