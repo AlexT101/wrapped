@@ -37,34 +37,21 @@ public class IntroFragment extends Fragment {
     }
 
     private void fetchPlayingSong() {
-        Spotify.fetchActiveDevice(deviceIds -> {
-            if (!deviceIds.isEmpty()) {
-                String activeDeviceId = deviceIds.get(0); // Assuming we use the first active device
+        JSONObject topTracks = Spotify.getTracks();
+        if (topTracks != null) {
+            try {
+                JSONArray items = topTracks.getJSONArray("items");
+                if (items.length() > 0) {
+                    JSONObject topTrack = items.getJSONObject(0);
+                    JSONObject album = topTrack.getJSONObject("album");
+                    String uri = album.getString("uri");
+                    Log.d("uri", uri);
 
-                JSONObject topTracks = Spotify.getTracks();
-                if (topTracks != null) {
-                    try {
-                        JSONArray items = topTracks.getJSONArray("items");
-                        if (items.length() > 0) {
-                            JSONObject topTrack = items.getJSONObject(0);
-                            String uri = topTrack.getString("uri");  // Assuming 'uri' is directly under the track object
-                            Log.d("uri", uri);
-
-                            String requestBody = "{\n" +
-                                    "    \"context_uri\": \"" + uri + "\",\n" +
-                                    "    \"offset\": {\"position\": 0},\n" +  // Assuming you want to start at the first track
-                                    "    \"position_ms\": 0\n" +
-                                    "}";
-                            Spotify.playSong(requestBody, activeDeviceId);  // Adjusted to pass device ID
-                        }
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    Spotify.play(uri);  // Adjusted to pass device ID
                 }
-            } else {
-                Log.e("Spotify", "No active devices found.");
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
-        });
+        }
     }
-
 }
