@@ -69,7 +69,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (currentUser != null) {
             Log.d("API CALL", "Logged in user: " + currentUser.getUid());
             Spotify.setUser(currentUser.getUid());
-            Spotify.getDataFromFirestore(this);
+            if (Spotify.getToken() == null || Spotify.getToken() == "") {
+                Spotify.getDataFromFirestore(this);
+            }
         }
     }
 
