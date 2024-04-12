@@ -66,6 +66,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            Log.d("API CALL", "Logged in user: " + currentUser.getUid());
+            Spotify.setUser(currentUser.getUid());
+            Spotify.getDataFromFirestore(this);
+        }
     }
 
     @Override
@@ -103,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         final AuthorizationResponse response = AuthorizationClient.getResponse(resultCode, data);
 
         if (Spotify.AUTH_CODE_REQUEST_CODE == requestCode) {
-            Spotify.setCode(currentUser.getUid(),response.getCode());
+            Spotify.setCode(response.getCode());
             Spotify.instance.loadToken(this);
         }
     }

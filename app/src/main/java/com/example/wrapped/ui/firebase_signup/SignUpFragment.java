@@ -2,6 +2,7 @@ package com.example.wrapped.ui.firebase_signup;// SignUpFragment.java
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,6 +80,7 @@ public class SignUpFragment extends Fragment {
                             // Start the activity
                             startActivity(intent);
                         } else {
+                            Log.d("SignUpError", "Sign up failed", task.getException());
                             // Sign up failed
                             Toast.makeText(getActivity(), "Sign up failed", Toast.LENGTH_SHORT).show();
                         }

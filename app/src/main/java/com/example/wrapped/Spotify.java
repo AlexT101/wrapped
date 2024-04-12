@@ -45,8 +45,20 @@ public class Spotify {
     public static final int AUTH_CODE_REQUEST_CODE = 1;
 
     private static String code;
+    private static String refresh;
     private static String token;
+    private static String user;
     private static JSONObject profile;
+
+    private static class User {
+        private String code;
+        private User(String code) {
+            this.code = code;
+        }
+        public String getCode() {
+            return code;
+        }
+    }
 
     private static JSONObject tracks;
 
@@ -59,28 +71,21 @@ public class Spotify {
     private static ArtistsListener artistsListener;
 
     private static final OkHttpClient mOkHttpClient = new OkHttpClient();
-    private Call mCall;
 
-    private static class User {
-        private String code;
-        private User(String code) {
-            this.code = code;
-        }
-        public String getCode() {
-            return code;
-        }
+    public static String getUser() {
+        return user;
     }
-
+    public static void setUser(String val) {
+        user = val;
+    }
 
     public static String getCode() {
         return code;
     }
 
-    public static void setCode(String user, String val) {
+    public static void setCode(String val) {
         code = val;
-        if (user != null) {
-            pushDataIntoFirestore(user, code);
-        }
+
     }
 
     public static String getToken() {
@@ -89,6 +94,18 @@ public class Spotify {
 
     public static void setToken(String val) {
         token = val;
+    }
+
+    public static String getRefresh() {
+        return refresh;
+    }
+
+    public static void setRefresh(String user, String val) {
+        refresh = val;
+        if (user != null) {
+            pushDataIntoFirestore(user, refresh);
+            Log.d("API CALL", "Code successfully saved: " + refresh);
+        }
     }
 
     public static JSONObject getProfile() {
@@ -121,8 +138,10 @@ public class Spotify {
 
     public void loadToken(Activity contextActivity) {
         if (code == null) {
-            Log.d("SPOTIFY:HTTP", "You need to get a code first!");
+            Log.d("API CALL", "You need to get a code first!");
             return;
+        } else {
+            Log.d("API CALL", "Attempting loadToken() with code: " + code);
         }
 
         RequestBody body = new FormBody.Builder()
@@ -138,13 +157,12 @@ public class Spotify {
                 .post(body)
                 .build();
 
-        cancelCall();
-        mCall = mOkHttpClient.newCall(request);
+        Call mCall = mOkHttpClient.newCall(request);
 
         mCall.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.d("SPOTIFY:HTTP", "Failed to fetch token: " + e);
+                Log.d("API CALL", "Failed to fetch token: " + e);
             }
 
             @Override
@@ -155,9 +173,80 @@ public class Spotify {
                     public void run() {
                         try {
                             JSONObject jsonResponse = new JSONObject(val);
-                            String accessToken = jsonResponse.getString("access_token");
-                            setToken(accessToken);
-                            instance.loadProfile();
+                            Log.d("API CALL", jsonResponse.toString());
+                            if (jsonResponse.has("access_token")) {
+                                String accessToken = jsonResponse.getString("access_token");
+                                Log.d("API CALL", "Fetched access token: " + accessToken);
+                                setToken(accessToken);
+                                if (jsonResponse.has("refresh_token")) {
+                                    String refresh = jsonResponse.getString("refresh_token");
+                                    Log.d("API CALL", "Fetched refresh token: " + refresh);
+                                    setRefresh(user, refresh);
+                                }
+                                instance.loadProfile();
+                            } else {
+                                Log.d("API CALL", "Could not fetch access token");
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    public void loadToken(String refreshToken, Activity contextActivity) {
+        if (refreshToken == null) {
+            Log.d("API CALL", "You need to get a refresh token first!");
+            return;
+        } else {
+            Log.d("API CALL", "Attempting loadToken() with refresh token: " + refreshToken);
+        }
+
+        RequestBody body = new FormBody.Builder()
+                .add("grant_type", "refresh_token")
+                .add("refresh_token", refreshToken)
+                .add("client_id", CLIENT_ID)
+                .build();
+
+        final Request request = new Request.Builder()
+                .url("https://accounts.spotify.com/api/token")
+                .addHeader("content-type", "application/x-www-form-urlencoded")
+                .addHeader("Authorization", "Basic " + BASE64_CREDENTIALS)
+                .post(body)
+                .build();
+
+        Call mCall = mOkHttpClient.newCall(request);
+
+        mCall.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("API CALL", "Failed to fetch token: " + e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                final String val = response.body().string();
+                contextActivity.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            JSONObject jsonResponse = new JSONObject(val);
+                            Log.d("API CALL", jsonResponse.toString());
+                            if (jsonResponse.has("access_token")) {
+                                String accessToken = jsonResponse.getString("access_token");
+                                Log.d("API CALL", "Fetched access token: " + accessToken);
+                                setToken(accessToken);
+                                if (jsonResponse.has("refresh_token")) {
+                                    String refresh = jsonResponse.getString("refresh_token");
+                                    Log.d("API CALL", "Fetched refresh token: " + refresh);
+                                    setRefresh(user, refresh);
+                                }
+                                instance.loadProfile();
+                            } else {
+                                Log.d("API CALL", "Could not fetch access token");
+                            }
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -179,8 +268,7 @@ public class Spotify {
                 .addHeader("Authorization", "Bearer " + token)
                 .build();
 
-        cancelCall();
-        mCall = mOkHttpClient.newCall(request);
+        Call mCall = mOkHttpClient.newCall(request);
 
         mCall.enqueue(new Callback() {
             @Override
@@ -213,12 +301,6 @@ public class Spotify {
         return Uri.parse(REDIRECT_URI);
     }
 
-    private void cancelCall() {
-        if (mCall != null) {
-            mCall.cancel();
-        }
-    }
-
     public static void setProfileListener(ProfileListener listener) {
         profileListener = listener;
     }
@@ -246,22 +328,27 @@ public class Spotify {
 
     }
 
-    private static void getDataFromFirestore(String userId) {
-        FirebaseFirestore.getInstance().collection("users").document(userId)
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        if (documentSnapshot.exists()) {
-                            String code = documentSnapshot.getString("code");
+    public static void getDataFromFirestore(Activity contextActivity) {
+        if (user != null) {
+            FirebaseFirestore.getInstance().collection("users").document(user)
+                    .get()
+                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            if (documentSnapshot.exists()) {
+                                String temp = documentSnapshot.getString("code");
+                                setRefresh(user, temp);
+                                Log.d("API CALL", "Refresh token retrieved: " + temp);
+                                instance.loadToken(temp, contextActivity);
+                            }
                         }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                    }
-                });
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                        }
+                    });
+        }
     }
 
     public static void setTracksListener(TracksListener tracks) {
