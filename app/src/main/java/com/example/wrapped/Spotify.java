@@ -302,7 +302,7 @@ public class Spotify {
 
         String endpointUrl = "https://api.spotify.com/v1/me/player/play";
         MediaType mediaType = MediaType.parse("application/json");
-        final RequestBody requestBody =  RequestBody.create(mediaType, playerInfo);
+        final RequestBody requestBody = RequestBody.create(mediaType, playerInfo);
 
         final Request request = new Request.Builder()
                 .url(endpointUrl)
@@ -315,20 +315,20 @@ public class Spotify {
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
-                Log.d("SPOTIFY:HTTP", "Failed to fetch top tracks: " + e);
+                Log.d("SPOTIFY:HTTP", "Failed to start playback: " + e);
             }
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                try {
-                    setArtists(new JSONObject(response.body().string()));
-                    Log.d("SPOTIFY", artists.toString(3));
-                } catch (JSONException e) {
-                    Log.d("SPOTIFY:JSON", "Failed to parse top tracks JSON: " + e);
+                if (response.isSuccessful()) {
+                    Log.d("SPOTIFY:HTTP", "Playback started successfully.");
+                } else {
+                    Log.e("SPOTIFY:HTTP", "Failed to start playback: " + response.code());
                 }
             }
         });
     }
+
 
     public void fetchActiveDevice(Consumer<List<String>> onDevicesFetched) {
         String url = "https://api.spotify.com/v1/me/player/devices";
