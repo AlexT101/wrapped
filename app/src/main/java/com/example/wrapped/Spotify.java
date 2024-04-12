@@ -294,14 +294,21 @@ public class Spotify {
             }
         });
     }
-    public static void playSong(String playerInfo) {
+    public static void playSong(String playerInfo, String deviceId) {
         if (token == null) {
             Log.d("SPOTIFY:HTTP", "You need to get an access token first!");
             return;
         }
 
+        // Endpoint URL does not need to include the device ID as a query parameter
+        // because the device ID will be specified in the request body
         String endpointUrl = "https://api.spotify.com/v1/me/player/play";
+
         MediaType mediaType = MediaType.parse("application/json");
+
+        // If the device ID should be part of the request body, ensure it's included in `playerInfo`
+        // Assuming `playerInfo` already contains the device_id in its JSON, then no changes are needed
+        // Otherwise, you need to add the device ID to the JSON body
         final RequestBody requestBody = RequestBody.create(mediaType, playerInfo);
 
         final Request request = new Request.Builder()
@@ -330,7 +337,8 @@ public class Spotify {
     }
 
 
-    public void fetchActiveDevice(Consumer<List<String>> onDevicesFetched) {
+
+    public static void fetchActiveDevice(Consumer<List<String>> onDevicesFetched) {
         String url = "https://api.spotify.com/v1/me/player/devices";
 
         Request request = new Request.Builder()
