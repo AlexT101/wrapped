@@ -73,31 +73,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/whiteBlock" />
 
-    <TextView
-        android:id="@+id/All_Genre"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:gravity="center"
-        android:text="All Your Genres"
-        android:textColor="@color/lightPink"
-        android:textSize="35dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bottomLine" />
-
     <LinearLayout
         android:id="@+id/genre1_line"
         android:layout_width="500dp"
         android:layout_height="0dp"
-        android:layout_marginStart="-10dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="70dp"
         android:background="@null"
         android:orientation="horizontal"
         android:rotation="-10"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/All_Genre">
+        app:layout_constraintTop_toBottomOf="@+id/bottomLine">
 
         <TextView
             android:id="@+id/genre1_start"

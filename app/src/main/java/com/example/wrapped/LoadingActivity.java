@@ -5,11 +5,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.app.Activity;
 import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import org.json.JSONObject;
 
 public class LoadingActivity extends Activity {
 
@@ -59,14 +62,9 @@ public class LoadingActivity extends Activity {
 
 
     private void spotifyAPICall() {
-        new Handler(Looper.getMainLooper()).postDelayed(() -> {
-
-            /**
-             * REPLACE THIS WITH ACTUAL SPOTIFY API CALL AND REMOVE DELAY
-             */
-
-            checkAnimation();
-        }, loadingDuration);
-
+        Spotify.instance.fetchTopArtists();
+        Spotify.instance.fetchTopTracks();
+        checkAnimation();
     }
 }
+

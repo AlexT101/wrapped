@@ -10,6 +10,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.gson.Gson;
 import com.spotify.sdk.android.auth.AuthorizationClient;
 import com.spotify.sdk.android.auth.AuthorizationRequest;
 import com.spotify.sdk.android.auth.AuthorizationResponse;
@@ -19,14 +20,18 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import okhttp3.Call;
 import okhttp3.Callback;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.RequestBody;
 import okhttp3.FormBody;
+
+import java.util.Map;
 
 public class Spotify {
 
@@ -43,9 +48,17 @@ public class Spotify {
     private static String token;
     private static JSONObject profile;
 
+    private static JSONObject tracks;
+
+    private static JSONObject artists;
+
     private static ProfileListener profileListener;
 
-    private final OkHttpClient mOkHttpClient = new OkHttpClient();
+    private static TracksListener tracksListener;
+
+    private static ArtistsListener artistsListener;
+
+    private static final OkHttpClient mOkHttpClient = new OkHttpClient();
     private Call mCall;
 
     private static class User {
@@ -83,6 +96,20 @@ public class Spotify {
     public static void setProfile(JSONObject newProfile) {
         profile = newProfile;
         notifyProfileUpdated();
+    }
+
+    public static JSONObject getTracks() {return tracks;}
+
+    public static void setTracks(JSONObject newTracks) {
+        tracks = newTracks;
+        notifyTracksUpdated();
+    }
+
+    public static JSONObject getArtists(){return artists;}
+
+    public static void setArtists(JSONObject newArtists) {
+        artists = newArtists;
+        notifyArtistsUpdated();
     }
 
     public void loadCode(Activity contextActivity) {
@@ -174,7 +201,7 @@ public class Spotify {
     private AuthorizationRequest getAuthenticationRequest(AuthorizationResponse.Type type) {
         return new AuthorizationRequest.Builder(CLIENT_ID, type, getRedirectUri().toString())
                 .setShowDialog(false)
-                .setScopes(new String[] { "user-read-email", "user-top-read", "user-read-recently-played" })
+                .setScopes(new String[] { "user-read-email", "user-top-read", "user-read-recently-played", "user-modify-playback-state" })
                 .setCampaign("your-campaign-token")
                 .build();
     }
@@ -233,5 +260,130 @@ public class Spotify {
                     public void onFailure(@NonNull Exception e) {
                     }
                 });
+    public static void setTracksListener(TracksListener tracks) {
+        tracksListener = tracks;
+    }
+
+    private static void notifyTracksUpdated() {
+        if (tracksListener != null) {
+            tracksListener.onTracksUpdate(tracks);
+        }
+    }
+
+    public static void setArtistsListener(ArtistsListener artists) {
+        artistsListener = artists;
+    }
+
+    private static void notifyArtistsUpdated() {
+        if (artistsListener != null) {
+            artistsListener.onArtistsUpdate(artists);
+        }
+    }
+
+    public void fetchTopTracks() {
+        if (token == null) {
+            Log.d("SPOTIFY:HTTP", "You need to get an access token first!");
+            return;
+        }
+
+        String endpointUrl = "https://api.spotify.com/v1/me/top/tracks";
+        Request request = new Request.Builder()
+                .url(endpointUrl)
+                .addHeader("Authorization", "Bearer " + token)
+                .build();
+
+        Call call = mOkHttpClient.newCall(request);  // Use a local variable instead of mCall
+
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("SPOTIFY:HTTP", "Failed to fetch top tracks: " + e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    setTracks(new JSONObject(response.body().string()));
+                    Log.d("SPOTIFY", tracks.toString(3));
+                } catch (JSONException e) {
+                    Log.d("SPOTIFY:JSON", "Failed to parse top tracks JSON: " + e);
+                }
+            }
+        });
+    }
+
+
+    public void fetchTopArtists() {
+        if (token == null) {
+            Log.d("SPOTIFY:HTTP", "You need to get an access token first!");
+            return;
+        }
+
+        String endpointUrl = "https://api.spotify.com/v1/me/top/artists";
+
+        final Request request = new Request.Builder()
+                .url(endpointUrl)
+                .addHeader("Authorization", "Bearer " + token)
+                .build();
+
+        Call call = mOkHttpClient.newCall(request);
+
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("SPOTIFY:HTTP", "Failed to fetch top tracks: " + e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                try {
+                    setArtists(new JSONObject(response.body().string()));
+                    Log.d("SPOTIFY", artists.toString(3));
+                } catch (JSONException e) {
+                    Log.d("SPOTIFY:JSON", "Failed to parse top tracks JSON: " + e);
+                }
+            }
+        });
+    }
+
+    public static void play(String uri) {
+        if (token == null) {
+            Log.d("SPOTIFY:HTTP", "You need to get a token first!");
+            return;
+        }
+
+        Gson gson = new Gson();
+        Map<String, Object> jsonBody = new HashMap<>();
+        jsonBody.put("context_uri", uri);
+        jsonBody.put("position_ms", 0);
+        String jsonPayload = gson.toJson(jsonBody);
+
+        MediaType MEDIA_TYPE_JSON = MediaType.parse("application/json; charset=utf-8");
+        RequestBody body = RequestBody.create(jsonPayload, MEDIA_TYPE_JSON);
+
+        final Request request = new Request.Builder()
+                .url("https://api.spotify.com/v1/me/player/play")
+                .addHeader("Authorization", "Bearer " + token)
+                .put(body)
+                .build();
+
+        OkHttpClient mOkHttpClient = new OkHttpClient();
+        Call call = mOkHttpClient.newCall(request);
+
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("SPOTIFY:HTTP", "Failed to start playback: " + e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    Log.d("SPOTIFY:HTTP", "Playback started successfully.");
+                } else {
+                    Log.e("SPOTIFY:HTTP", "Failed to start playback: " + response.code());
+                }
+            }
+        });
     }
 }
