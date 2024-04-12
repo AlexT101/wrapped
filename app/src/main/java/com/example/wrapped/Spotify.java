@@ -78,7 +78,9 @@ public class Spotify {
 
     public static void setCode(String user, String val) {
         code = val;
-        pushDataIntoFirestore(user, code);
+        if (user != null) {
+            pushDataIntoFirestore(user, code);
+        }
     }
 
     public static String getToken() {
@@ -260,6 +262,8 @@ public class Spotify {
                     public void onFailure(@NonNull Exception e) {
                     }
                 });
+    }
+
     public static void setTracksListener(TracksListener tracks) {
         tracksListener = tracks;
     }
