@@ -4,11 +4,18 @@ import android.app.Activity;
 import android.net.Uri;
 import android.util.Log;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 import com.spotify.sdk.android.auth.AuthorizationClient;
 import com.spotify.sdk.android.auth.AuthorizationRequest;
 import com.spotify.sdk.android.auth.AuthorizationResponse;
 
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -54,12 +61,24 @@ public class Spotify {
     private static final OkHttpClient mOkHttpClient = new OkHttpClient();
     private Call mCall;
 
+    private static class User {
+        private String code;
+        private User(String code) {
+            this.code = code;
+        }
+        public String getCode() {
+            return code;
+        }
+    }
+
+
     public static String getCode() {
         return code;
     }
 
-    public static void setCode(String val) {
+    public static void setCode(String user, String val) {
         code = val;
+        pushDataIntoFirestore(user, code);
     }
 
     public static String getToken() {
@@ -208,6 +227,39 @@ public class Spotify {
         }
     }
 
+    private static void pushDataIntoFirestore(String uid, String code) {
+        CollectionReference collection = FirebaseFirestore.getInstance().collection("users");
+        DocumentReference document = collection.document(uid);
+        document.set(new User(code))
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
+
+    }
+
+    private static void getDataFromFirestore(String userId) {
+        FirebaseFirestore.getInstance().collection("users").document(userId)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()) {
+                            String code = documentSnapshot.getString("code");
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
     public static void setTracksListener(TracksListener tracks) {
         tracksListener = tracks;
     }
