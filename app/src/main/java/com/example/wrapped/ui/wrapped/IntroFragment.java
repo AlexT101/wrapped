@@ -47,7 +47,7 @@ public class IntroFragment extends Fragment {
                     String uri = album.getString("uri");
                     Log.d("uri", uri);
 
-                    Spotify.play(uri);  // Adjusted to pass device ID
+                    Spotify.play(uri);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();

@@ -9,14 +9,11 @@ import com.spotify.sdk.android.auth.AuthorizationClient;
 import com.spotify.sdk.android.auth.AuthorizationRequest;
 import com.spotify.sdk.android.auth.AuthorizationResponse;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -28,8 +25,6 @@ import okhttp3.RequestBody;
 import okhttp3.FormBody;
 
 import java.util.Map;
-import java.util.function.Consumer;
-import com.google.gson.Gson;
 
 public class Spotify {
 
