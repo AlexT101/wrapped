@@ -79,4 +79,6 @@
     <string name="playedSongSubtitle">...and it still hits the same</string>
     <string name="topSong">Metro Spider</string>
     <string name="topSongArtist">Metro Boomin, Young Thug</string>
+    <string name="pastWrapLength">1Y</string>
+    <string name="pastWrapDate">3/4/24</string>
 </resources>
