@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.wrapped.R;
 import com.example.wrapped.Spotify;
+import com.example.wrapped.Wrap;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,7 +46,7 @@ public class IntroFragment extends Fragment {
     }
 
     private void fetchPlayingSong() {
-        JSONObject topTracks = Spotify.getTracks();
+        JSONObject topTracks = Wrap.getCurrent().getTracks();
         if (topTracks != null) {
             try {
                 JSONArray items = topTracks.getJSONArray("items");
@@ -64,7 +65,7 @@ public class IntroFragment extends Fragment {
     }
 
     private void displayTopArtists() {
-        JSONObject topArtists = Spotify.getArtists();
+        JSONObject topArtists = Wrap.getCurrent().getArtists();
         if (topArtists != null) {
             try {
                 JSONArray items = topArtists.getJSONArray("items");

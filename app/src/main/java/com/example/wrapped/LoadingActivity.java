@@ -43,9 +43,9 @@ public class LoadingActivity extends Activity {
                 // If there's no time span provided, use a default
                 timeSpan = "medium_term";
             }
+            Wrap.createWrap(timeSpan);
+            spotifyAPICall();
         }
-
-        spotifyAPICall();
     }
 
     private void checkAnimation() {

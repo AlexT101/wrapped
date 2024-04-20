@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.wrapped.R;
 import com.example.wrapped.Spotify;
+import com.example.wrapped.Wrap;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -49,7 +50,7 @@ public class SongFragment extends Fragment {
     }
 
     private void displayTopTrack() {
-        JSONObject topTracks = Spotify.getTracks();
+        JSONObject topTracks = Wrap.getCurrent().getTracks();
         if (topTracks != null) {
             try {
                 JSONArray items = topTracks.getJSONArray("items");

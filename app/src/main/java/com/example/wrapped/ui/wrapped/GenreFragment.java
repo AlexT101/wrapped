@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.example.wrapped.R;
 import com.example.wrapped.Spotify;
+import com.example.wrapped.Wrap;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,7 +41,7 @@ public class GenreFragment extends Fragment {
         return rootView;
     }
     private void displayTopGenre() {
-        JSONObject topArtists = Spotify.getArtists();  // Get top artists data
+        JSONObject topArtists = Wrap.getCurrent().getArtists();  // Get top artists data
         if (topArtists == null) {
             return;
         }

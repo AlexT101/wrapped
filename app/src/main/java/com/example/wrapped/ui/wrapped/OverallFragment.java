@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.wrapped.R;
 import com.example.wrapped.Spotify;
+import com.example.wrapped.Wrap;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -73,9 +74,9 @@ public class OverallFragment extends Fragment {
     }
 
     private void displayTopItems() {
-        JSONObject tracks = Spotify.getTracks();
+        JSONObject tracks = Wrap.getCurrent().getTracks();
         displayTopTracks(tracks);
-        displayTopArtists(Spotify.getArtists());
+        displayTopArtists(Wrap.getCurrent().getArtists());
         displayAlbumCover(tracks);
         displayTopGenre(tracks);
     }
@@ -112,7 +113,7 @@ public class OverallFragment extends Fragment {
 
     private void displayTopGenre(JSONObject tracks) {
         try {
-            JSONArray items = Spotify.getArtists().getJSONArray("items");
+            JSONArray items = Wrap.getCurrent().getArtists().getJSONArray("items");
             Map<String, Integer> genreCount = new HashMap<>();
 
             for (int i = 0; i < items.length(); i++) {
