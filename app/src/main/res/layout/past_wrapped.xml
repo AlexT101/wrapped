@@ -25,13 +25,15 @@
                 android:layout_height="match_parent"
                 android:background="@color/purple_700"
                 android:orientation="horizontal"
+                android:clickable="true"
                 android:padding="16dp"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
+                    android:id="@+id/length"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="1Y"
+                    android:text="@string/pastWrapLength"
                     android:textColor="@color/white"
                     android:textSize="70sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -42,9 +44,10 @@
         </androidx.cardview.widget.CardView>
 
         <TextView
+            android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="3/4/24"
+            android:text="@string/pastWrapDate"
             android:textColor="@color/white"
             android:textSize="24sp"
 
