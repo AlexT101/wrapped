@@ -6,6 +6,8 @@ import android.util.Log;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -20,6 +22,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.lang.ref.Reference;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 
 import okhttp3.Call;
@@ -103,7 +110,7 @@ public class Spotify {
     public static void setRefresh(String user, String val) {
         refresh = val;
         if (user != null) {
-            pushDataIntoFirestore(user, refresh);
+            pushUserIntoFirestore(user, refresh);
             Log.d("API CALL", "Code successfully saved: " + refresh);
         }
     }
@@ -311,7 +318,7 @@ public class Spotify {
         }
     }
 
-    private static void pushDataIntoFirestore(String uid, String code) {
+    private static void pushUserIntoFirestore(String uid, String code) {
         CollectionReference collection = FirebaseFirestore.getInstance().collection("users");
         DocumentReference document = collection.document(uid);
         document.set(new User(code))
@@ -328,7 +335,7 @@ public class Spotify {
 
     }
 
-    public static void getDataFromFirestore(Activity contextActivity) {
+    public static void getUserFromFirestore(Activity contextActivity) {
         if (user != null) {
             FirebaseFirestore.getInstance().collection("users").document(user)
                     .get()
@@ -349,6 +356,63 @@ public class Spotify {
                         }
                     });
         }
+    }
+
+    private static void pushWrappedIntoFirestore(JSONObject wrapped, String time, String type) {
+        if (user != null) {
+            FirebaseFirestore.getInstance().collection("users").document(user).collection("old_wrapped").document(LocalDate.now().getMonth().toString())
+                    .get()
+                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            if (documentSnapshot.exists()) {
+                                pushHelper(documentSnapshot, time, wrapped.toString(), type,"update");
+                            } else {
+                                pushHelper(documentSnapshot, time, wrapped.toString(), type,"set");
+                            }
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                        }
+                    });
+        }
+    }
+    private static void pushHelper(DocumentSnapshot documentSnapshot, String time, String wrapped, String wrapped_type, String action) {
+        Map<String, Object> updates = new HashMap<>();
+        updates.put(time+"_"+wrapped_type,wrapped);
+        if(action.equals("update")) {
+            documentSnapshot.getReference().
+                    update(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            System.out.println("hello");
+
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                        }
+                    });
+        } else if (action.equals("set")) {
+            documentSnapshot.getReference().
+                    set(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            System.out.println("hello");
+
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                        }
+                    });
+        }
+
     }
 
     public static void setTracksListener(TracksListener tracks) {
@@ -394,7 +458,9 @@ public class Spotify {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 try {
-                    setTracks(new JSONObject(response.body().string()));
+                    JSONObject newWrapped = new JSONObject(response.body().string());
+                    setTracks(newWrapped);
+                    pushWrappedIntoFirestore(newWrapped, timeRange, "tracks");
                     Log.d("SPOTIFY", tracks.toString(3));
                 } catch (JSONException e) {
                     Log.d("SPOTIFY:JSON", "Failed to parse top tracks JSON: " + e);
@@ -428,7 +494,9 @@ public class Spotify {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 try {
-                    setArtists(new JSONObject(response.body().string()));
+                    JSONObject newWrapped = new JSONObject(response.body().string());
+                    setArtists(newWrapped);
+                    pushWrappedIntoFirestore(newWrapped, timeRange, "artists");
                     Log.d("SPOTIFY", artists.toString(3));
                 } catch (JSONException e) {
                     Log.d("SPOTIFY:JSON", "Failed to parse top tracks JSON: " + e);

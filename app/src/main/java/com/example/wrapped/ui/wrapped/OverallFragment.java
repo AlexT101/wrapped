@@ -82,7 +82,9 @@ public class OverallFragment extends Fragment {
 
     private void displayTopTracks(JSONObject tracks) {
         try {
-            JSONArray items = tracks.getJSONArray("items");
+            //JSONArray items = tracks.getJSONArray("items");
+            String array = tracks.getJSONArray("items").toString();
+            JSONArray items = new JSONArray(array);
             TextView[] songViews = {number1_song, number2_song, number3_song, number4_song, number5_song};
 
             for (int i = 0; i < Math.min(items.length(), songViews.length); i++) {

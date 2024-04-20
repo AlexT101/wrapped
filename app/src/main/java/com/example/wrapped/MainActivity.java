@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Log.d("API CALL", "Logged in user: " + currentUser.getUid());
             Spotify.setUser(currentUser.getUid());
             if (Spotify.getToken() == null || Spotify.getToken() == "") {
-                Spotify.getDataFromFirestore(this);
+                Spotify.getUserFromFirestore(this);
             }
         }
     }
