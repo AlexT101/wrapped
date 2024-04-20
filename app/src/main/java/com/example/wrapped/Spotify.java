@@ -371,13 +371,13 @@ public class Spotify {
         }
     }
 
-    public void fetchTopTracks() {
+    public void fetchTopTracks(String timeRange) {
         if (token == null) {
             Log.d("SPOTIFY:HTTP", "You need to get an access token first!");
             return;
         }
 
-        String endpointUrl = "https://api.spotify.com/v1/me/top/tracks";
+        String endpointUrl = "https://api.spotify.com/v1/me/top/tracks?time_range=" + timeRange;
         Request request = new Request.Builder()
                 .url(endpointUrl)
                 .addHeader("Authorization", "Bearer " + token)
@@ -404,13 +404,13 @@ public class Spotify {
     }
 
 
-    public void fetchTopArtists() {
+    public void fetchTopArtists(String timeRange) {
         if (token == null) {
             Log.d("SPOTIFY:HTTP", "You need to get an access token first!");
             return;
         }
 
-        String endpointUrl = "https://api.spotify.com/v1/me/top/artists";
+        String endpointUrl = "https://api.spotify.com/v1/me/top/artists?time_range=" + timeRange;
 
         final Request request = new Request.Builder()
                 .url(endpointUrl)

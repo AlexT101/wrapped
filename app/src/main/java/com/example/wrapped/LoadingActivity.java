@@ -24,6 +24,8 @@ public class LoadingActivity extends Activity {
     private TextView loadingTextView;
     private ImageView checkMark;
 
+    private String timeSpan;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +35,15 @@ public class LoadingActivity extends Activity {
         progressBar = findViewById(R.id.progressBar);
         loadingTextView = findViewById(R.id.loadingTextView);
         checkMark = findViewById(R.id.checkMark);
+
+        Intent intent = getIntent(); // Get the intent that started this activity
+        if (intent != null) {
+            timeSpan = intent.getStringExtra("SELECTED_TIME_SPAN");
+            if (timeSpan == null) {
+                // If there's no time span provided, use a default
+                timeSpan = "medium_term";
+            }
+        }
 
         spotifyAPICall();
     }
@@ -62,8 +73,8 @@ public class LoadingActivity extends Activity {
 
 
     private void spotifyAPICall() {
-        Spotify.instance.fetchTopArtists();
-        Spotify.instance.fetchTopTracks();
+        Spotify.instance.fetchTopArtists(timeSpan);
+        Spotify.instance.fetchTopTracks(timeSpan);
         checkAnimation();
     }
 }
