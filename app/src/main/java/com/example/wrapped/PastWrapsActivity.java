@@ -1,10 +1,10 @@
 package com.example.wrapped;
 
-public class PastWraps {
+public class PastWrapsActivity {
     private String date;
     private String timeline;
 
-    public PastWraps(String date, String timeline) {
+    public PastWrapsActivity(String date, String timeline) {
         this.date = date;
         this.timeline = timeline;
     }
