@@ -13,6 +13,8 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import com.example.wrapped.R;
 import com.example.wrapped.Spotify;
+import com.example.wrapped.Wrap;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -24,7 +26,6 @@ public class ArtistFragment extends Fragment {
 
     private TextView topArtistName;
     private TextView topArtistGenres;
-
     private ImageView topArtistImage;
 
     public ArtistFragment() {
@@ -45,7 +46,7 @@ public class ArtistFragment extends Fragment {
     }
 
     private void displayTopArtist() {
-        JSONObject topArtists = Spotify.getArtists();
+        JSONObject topArtists = Wrap.getCurrent().getArtists();
         if (topArtists != null) {
             try {
                 String array = topArtists.getJSONArray("items").toString();

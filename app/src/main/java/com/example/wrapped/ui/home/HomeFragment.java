@@ -84,9 +84,6 @@ public class HomeFragment extends Fragment implements RecyclerViewListener {
 
         adapter = new PastWrapAdapter(PastWrapList, this);
         recyclerView.setAdapter(adapter);
-
-
-
     }
 
     @Override

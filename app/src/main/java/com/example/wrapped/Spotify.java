@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.net.Uri;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -67,15 +69,7 @@ public class Spotify {
         }
     }
 
-    private static JSONObject tracks;
-
-    private static JSONObject artists;
-
     private static ProfileListener profileListener;
-
-    private static TracksListener tracksListener;
-
-    private static ArtistsListener artistsListener;
 
     private static final OkHttpClient mOkHttpClient = new OkHttpClient();
 
@@ -122,20 +116,6 @@ public class Spotify {
     public static void setProfile(JSONObject newProfile) {
         profile = newProfile;
         notifyProfileUpdated();
-    }
-
-    public static JSONObject getTracks() {return tracks;}
-
-    public static void setTracks(JSONObject newTracks) {
-        tracks = newTracks;
-        notifyTracksUpdated();
-    }
-
-    public static JSONObject getArtists(){return artists;}
-
-    public static void setArtists(JSONObject newArtists) {
-        artists = newArtists;
-        notifyArtistsUpdated();
     }
 
     public void loadCode(Activity contextActivity) {
@@ -415,26 +395,6 @@ public class Spotify {
 
     }
 
-    public static void setTracksListener(TracksListener tracks) {
-        tracksListener = tracks;
-    }
-
-    private static void notifyTracksUpdated() {
-        if (tracksListener != null) {
-            tracksListener.onTracksUpdate(tracks);
-        }
-    }
-
-    public static void setArtistsListener(ArtistsListener artists) {
-        artistsListener = artists;
-    }
-
-    private static void notifyArtistsUpdated() {
-        if (artistsListener != null) {
-            artistsListener.onArtistsUpdate(artists);
-        }
-    }
-
     public void fetchTopTracks(String timeRange) {
         if (token == null) {
             Log.d("SPOTIFY:HTTP", "You need to get an access token first!");
@@ -459,9 +419,9 @@ public class Spotify {
             public void onResponse(Call call, Response response) throws IOException {
                 try {
                     JSONObject newWrapped = new JSONObject(response.body().string());
-                    setTracks(newWrapped);
                     pushWrappedIntoFirestore(newWrapped, timeRange, "tracks");
-                    Log.d("SPOTIFY", tracks.toString(3));
+                    Wrap.getCurrent().setTracks(newWrapped);
+                    Log.d("SPOTIFY", Wrap.getCurrent().getTracks().toString(3));
                 } catch (JSONException e) {
                     Log.d("SPOTIFY:JSON", "Failed to parse top tracks JSON: " + e);
                 }
@@ -495,9 +455,9 @@ public class Spotify {
             public void onResponse(Call call, Response response) throws IOException {
                 try {
                     JSONObject newWrapped = new JSONObject(response.body().string());
-                    setArtists(newWrapped);
                     pushWrappedIntoFirestore(newWrapped, timeRange, "artists");
-                    Log.d("SPOTIFY", artists.toString(3));
+                    Wrap.getCurrent().setArtists(newWrapped);
+                    Log.d("SPOTIFY", Wrap.getCurrent().getArtists().toString(3));
                 } catch (JSONException e) {
                     Log.d("SPOTIFY:JSON", "Failed to parse top tracks JSON: " + e);
                 }
