@@ -68,6 +68,43 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.13" />
 
+                <RadioGroup
+                    android:id="@+id/radioGroup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.94"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.90999997">
+
+                    <RadioButton
+                        android:id="@+id/short_term"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:text="1 Month"
+                        android:textColor="@color/white"
+                        app:layout_constraintVertical_bias="0.62" />
+
+                    <RadioButton
+                        android:id="@+id/medium_term"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:text="6 Months"
+                        android:textColor="@color/white"
+                        app:layout_constraintVertical_bias="0.81" />
+
+                    <RadioButton
+                        android:id="@+id/long_term"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:text="1 Year"
+                        android:textColor="@color/white"
+                        app:layout_constraintVertical_bias="1.0" />
+
+                </RadioGroup>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
 

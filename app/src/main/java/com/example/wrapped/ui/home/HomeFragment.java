@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,6 +34,7 @@ public class HomeFragment extends Fragment implements RecyclerViewListener {
     private RecyclerView recyclerView;
     private PastWrapAdapter adapter;
     private List<PastWrapsActivity> PastWrapList;
+    private RadioGroup timeSpanGroup;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -41,6 +43,8 @@ public class HomeFragment extends Fragment implements RecyclerViewListener {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        timeSpanGroup = root.findViewById(R.id.radioGroup);
 
         return root;
     }
@@ -52,7 +56,11 @@ public class HomeFragment extends Fragment implements RecyclerViewListener {
         ImageButton wrappedButton = view.findViewById(R.id.wrapped_button);
         wrappedButton.setOnClickListener(v -> {
 
+            String selectedTimeSpan = getSelectedTimeSpan();
+
             Intent intent = new Intent(getActivity(), LoadingActivity.class);
+
+            intent.putExtra("SELECTED_TIME_SPAN", selectedTimeSpan);
 
             startActivity(intent);
         });
@@ -77,6 +85,8 @@ public class HomeFragment extends Fragment implements RecyclerViewListener {
         adapter = new PastWrapAdapter(PastWrapList, this);
         recyclerView.setAdapter(adapter);
 
+
+
     }
 
     @Override
@@ -90,4 +100,22 @@ public class HomeFragment extends Fragment implements RecyclerViewListener {
         Intent intent = new Intent(getActivity(), LoadingActivity.class);
         startActivity(intent);
     }
+
+    private String getSelectedTimeSpan() {
+        int selectedId = timeSpanGroup.getCheckedRadioButtonId();
+        if (selectedId == -1) {
+            return "medium_term"; // default if no selection
+        }
+        View radioButton = timeSpanGroup.findViewById(selectedId);
+        int index = timeSpanGroup.indexOfChild(radioButton);
+
+        switch (index) {
+            case 0: return "short_term"; // Assuming this is the order of your radio buttons
+            case 1: return "medium_term";
+            case 2: return "long_term";
+            default: return "medium_term"; // Default value
+        }
+    }
 }
+
+
