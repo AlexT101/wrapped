@@ -55,6 +55,7 @@
         android:elevation="10dp">
 
         <ImageView
+            android:id="@+id/artist_5"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
@@ -86,6 +87,7 @@
         android:elevation="10dp">
 
         <ImageView
+            android:id="@+id/artist_4"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
@@ -117,6 +119,7 @@
         android:elevation="10dp">
 
         <ImageView
+            android:id="@+id/artist_3"
             android:layout_width="match_parent"
             android:layout_height="190dp"
             android:scaleType="centerCrop"
@@ -148,6 +151,7 @@
         android:elevation="10dp">
 
         <ImageView
+            android:id="@+id/artist_2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
@@ -180,6 +184,7 @@
         android:elevation="10dp">
 
         <ImageView
+            android:id="@+id/artist_1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"

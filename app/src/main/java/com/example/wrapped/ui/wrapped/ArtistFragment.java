@@ -24,7 +24,6 @@ public class ArtistFragment extends Fragment {
 
     private TextView topArtistName;
     private TextView topArtistGenres;
-
     private ImageView topArtistImage;
 
     public ArtistFragment() {
