@@ -2,6 +2,8 @@ package com.example.wrapped;
 
 import org.json.JSONObject;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class Wrap {
@@ -47,11 +49,13 @@ public class Wrap {
     }
 
     private String timeSpan;
+    private String date;
     private JSONObject tracks;
     private JSONObject artists;
 
     public Wrap(String time) {
         timeSpan = time;
+        date = getCurrentDate();
     }
 
     public String getTimeSpan() {
@@ -60,6 +64,14 @@ public class Wrap {
 
     public void setTimeSpan(String time) {
         timeSpan = time;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String newDate) {
+        date = newDate;
     }
 
     public JSONObject getTracks() {
@@ -74,5 +86,11 @@ public class Wrap {
 
     public void setArtists(JSONObject newArtists) {
         artists = newArtists;
+    }
+
+    public static String getCurrentDate() {
+        LocalDate date = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yy");
+        return date.format(formatter);
     }
 }
