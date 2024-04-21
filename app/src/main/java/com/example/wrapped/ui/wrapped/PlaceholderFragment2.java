@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.example.wrapped.DuoActivity;
 import com.example.wrapped.MainActivity;
 import com.example.wrapped.R;
+import com.example.wrapped.Spotify;
 import com.example.wrapped.WrappedActivity;
 
 public class PlaceholderFragment2 extends Fragment {
@@ -38,6 +39,7 @@ public class PlaceholderFragment2 extends Fragment {
 
         Button returnButton = view.findViewById(R.id.return_button);
         returnButton.setOnClickListener(v -> {
+            Spotify.stop();
             Intent intent = new Intent(getActivity(), MainActivity.class);
             startActivity(intent);
         });

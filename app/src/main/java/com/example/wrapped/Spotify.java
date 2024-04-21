@@ -455,4 +455,37 @@ public class Spotify {
             }
         });
     }
+
+    public static void stop() {
+        if (token == null) {
+            Log.d("SPOTIFY:HTTP", "You need to get a token first!");
+            return;
+        }
+
+        final Request request = new Request.Builder()
+                .url("https://api.spotify.com/v1/me/player/pause")
+                .addHeader("Authorization", "Bearer " + token)
+                .put(RequestBody.create("", null)) // PUT request with an empty body
+                .build();
+
+        OkHttpClient mOkHttpClient = new OkHttpClient();
+        Call call = mOkHttpClient.newCall(request);
+
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("SPOTIFY:HTTP", "Failed to stop playback: " + e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    Log.d("SPOTIFY:HTTP", "Playback stopped successfully.");
+                } else {
+                    Log.e("SPOTIFY:HTTP", "Failed to stop playback: " + response.code());
+                }
+            }
+        });
+    }
+
 }
