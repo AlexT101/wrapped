@@ -63,6 +63,7 @@ public class SettingsFragment extends Fragment {
                 EditText editText = root.findViewById(R.id.textView5);
                 String uname = editText.getText().toString();
                 setUserName(uname,mAuth.getUid().toString(), root);
+                username_top.setText(uname);
             }
         });
         Button deleteAccountButton = root.findViewById(R.id.deleteButton);
