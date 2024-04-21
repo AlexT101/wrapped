@@ -45,7 +45,7 @@ public class IntroFragment extends Fragment {
         displayTopArtists();
     }
 
-    private void fetchPlayingSong() {
+    public void fetchPlayingSong() {
         JSONObject topTracks = Wrap.getCurrent().getTracks();
         if (topTracks != null) {
             try {
@@ -56,8 +56,9 @@ public class IntroFragment extends Fragment {
                     String uri = album.getString("uri");
                     Log.d("uri", uri);
 
-                    Spotify.getDeviceID();
-                    Spotify.play(uri);
+                    Spotify.onStart();
+                    // Assuming uri is obtained from some source
+                    Spotify.connected(uri);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
