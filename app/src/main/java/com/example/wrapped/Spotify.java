@@ -436,4 +436,36 @@ public class Spotify {
             }
         });
     }
+
+    public static void getDeviceID() {
+        if (token == null) {
+            Log.d("SPOTIFY:HTTP", "You need to get a token first!");
+            return;
+        }
+
+        final Request request = new Request.Builder()
+                .url("https://api.spotify.com/v1/me/player/devices")
+                .addHeader("Authorization", "Bearer " + token)
+                .get()
+                .build();
+
+        OkHttpClient mOkHttpClient = new OkHttpClient();
+        Call call = mOkHttpClient.newCall(request);
+
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("SPOTIFY:HTTP", "Failed to start playback: " + e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    Log.d("SPOTIFY:HTTP", "Device Found: " + response.body().string());
+                } else {
+                    Log.e("SPOTIFY:HTTP", "Failed to start playback: " + response.code());
+                }
+            }
+        });
+    }
 }

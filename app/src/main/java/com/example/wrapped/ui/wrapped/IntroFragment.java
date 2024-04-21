@@ -56,6 +56,7 @@ public class IntroFragment extends Fragment {
                     String uri = album.getString("uri");
                     Log.d("uri", uri);
 
+                    Spotify.getDeviceID();
                     Spotify.play(uri);
                 }
             } catch (JSONException e) {
