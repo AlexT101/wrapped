@@ -123,9 +123,10 @@
 
     <TextView
         android:id="@+id/overall_genre"
-        android:layout_width="wrap_content"
+        android:layout_width="165dp"
         android:layout_height="wrap_content"
         android:text="Pop"
+        android:maxLines="1"
         android:textColor="@color/white"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -218,7 +219,8 @@
 
     <TextView
         android:id="@+id/number1_artist"
-        android:layout_width="wrap_content"
+        android:layout_width="130dp"
+        android:maxLines="1"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-medium"
         android:text="The Driver Era"
@@ -233,7 +235,8 @@
 
     <TextView
         android:id="@+id/number2_artist"
-        android:layout_width="wrap_content"
+        android:layout_width="130dp"
+        android:maxLines="1"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-medium"
         android:text="Artist 2"
@@ -248,7 +251,8 @@
 
     <TextView
         android:id="@+id/number3_artist"
-        android:layout_width="wrap_content"
+        android:layout_width="130dp"
+        android:maxLines="1"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-medium"
         android:text="Artist 3"
@@ -263,7 +267,8 @@
 
     <TextView
         android:id="@+id/number4_artist"
-        android:layout_width="wrap_content"
+        android:layout_width="130dp"
+        android:maxLines="1"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-medium"
         android:text="Artist 4"
@@ -278,7 +283,8 @@
 
     <TextView
         android:id="@+id/number5_artist"
-        android:layout_width="wrap_content"
+        android:layout_width="130dp"
+        android:maxLines="1"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-medium"
         android:text="Artist 5"
@@ -373,7 +379,8 @@
 
     <TextView
         android:id="@+id/number1_song"
-        android:layout_width="wrap_content"
+        android:layout_width="130dp"
+        android:maxLines="1"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-medium"
         android:text="Song 1"
@@ -388,7 +395,8 @@
 
     <TextView
         android:id="@+id/number2_song"
-        android:layout_width="wrap_content"
+        android:layout_width="130dp"
+        android:maxLines="1"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-medium"
         android:text="Song 2"
@@ -403,7 +411,8 @@
 
     <TextView
         android:id="@+id/number3_song"
-        android:layout_width="wrap_content"
+        android:layout_width="130dp"
+        android:maxLines="1"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-medium"
         android:text="Song 3"
@@ -418,7 +427,8 @@
 
     <TextView
         android:id="@+id/number4_song"
-        android:layout_width="wrap_content"
+        android:layout_width="130dp"
+        android:maxLines="1"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-medium"
         android:text="Song 4"
@@ -433,7 +443,8 @@
 
     <TextView
         android:id="@+id/number5_song"
-        android:layout_width="wrap_content"
+        android:layout_width="130dp"
+        android:maxLines="1"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-medium"
         android:text="Song 5"
