@@ -52,8 +52,10 @@ public class SettingsFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         EditText editText = root.findViewById(R.id.textView5);
+        TextView username_top = root.findViewById(R.id.username_top);
         MainActivity mainActivity = (MainActivity) getActivity();
         editText.setText(mainActivity.getUsername());
+        username_top.setText(mainActivity.getUsername());
         Button saveButton = root.findViewById(R.id.saveButton);
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override

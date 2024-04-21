@@ -88,6 +88,7 @@
     </androidx.cardview.widget.CardView>
 
     <TextView
+        android:id="@+id/username_top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="UserName"
@@ -103,7 +104,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="\@Accountid"
+        android:text="\@19013902913"
         android:textColor="#5E5E5E"
         android:textSize="15sp"
         android:textStyle="bold"
