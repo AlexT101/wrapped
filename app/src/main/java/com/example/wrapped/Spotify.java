@@ -371,6 +371,7 @@ public class Spotify {
                 try {
                     JSONObject newWrapped = new JSONObject(response.body().string());
                     Wrap.getCurrent().setTracks(newWrapped);
+                    Wrap.addToFirebase(Wrap.getCurrent());
                     Log.d("SPOTIFY", Wrap.getCurrent().getTracks().toString(3));
                 } catch (JSONException e) {
                     Log.d("SPOTIFY:JSON", "Failed to parse top tracks JSON: " + e);

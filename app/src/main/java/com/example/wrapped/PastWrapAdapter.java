@@ -10,10 +10,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class PastWrapAdapter extends RecyclerView.Adapter<PastWrapAdapter.PastWrapViewHolder> {
-    private List<PastWrapsActivity> pastWraps;
+    private List<Wrap> pastWraps;
     private final RecyclerViewListener recyclerViewListener;
 
-    public PastWrapAdapter(List<PastWrapsActivity> pastWraps, RecyclerViewListener recyclerViewListener) {
+    public PastWrapAdapter(List<Wrap> pastWraps, RecyclerViewListener recyclerViewListener) {
         this.pastWraps = pastWraps;
         this.recyclerViewListener = recyclerViewListener;
     }
@@ -26,9 +26,16 @@ public class PastWrapAdapter extends RecyclerView.Adapter<PastWrapAdapter.PastWr
 
     @Override
     public void onBindViewHolder(PastWrapViewHolder holder, int position) {
-        PastWrapsActivity pastWrap = pastWraps.get(position);
+        Wrap pastWrap = pastWraps.get(position);
         holder.textViewDate.setText(pastWrap.getDate());
-        holder.textViewTimeline.setText(pastWrap.getTimeline());
+        if (pastWrap.getTimeline().contains("short")) {
+            holder.textViewTimeline.setText("1M");
+        } else if (pastWrap.getTimeline().contains("med")) {
+            holder.textViewTimeline.setText("6M");
+        } else {
+            holder.textViewTimeline.setText("1Y");
+        }
+
     }
 
     @Override

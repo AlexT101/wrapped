@@ -4,6 +4,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.wrapped.ui.home.HomeFragment;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Firebase;
@@ -37,75 +38,87 @@ public class Wrap {
     //FIREBASE SYNC FUNCTIONS---------------------------------------------------------
 
     //Call this function when the user logs in to load all wraps from firebase
-    public static void loadFromFirebase(ArrayList<Wrap> all, String user) {
-        FirebaseFirestore.getInstance().collection("users").document(user).collection("old_wrapped").document(LocalDate.now().getMonth().toString())
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        if (documentSnapshot.exists()) {
-                            Map<String, Object> data = documentSnapshot.getData();
-                            Wrap short_term_wrap = new Wrap("short_term");
-                            Wrap mid_term_wrap = new Wrap("medium_term");
-                            Wrap long_term_wrap = new Wrap("long_term");
+    private static String[] months = new String[]{"APRIL"};
+    public static void loadFromFirebase(String user) {
+        for (String month : months) {
+            FirebaseFirestore.getInstance().collection("users").document(user).collection("old_wrapped").document(month)
+                    .get()
+                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            if (documentSnapshot.exists()) {
+                                Map<String, Object> data = documentSnapshot.getData();
+                                Wrap short_term_wrap = new Wrap("short_term");
+                                Wrap mid_term_wrap = new Wrap("medium_term");
+                                Wrap long_term_wrap = new Wrap("long_term");
 
-                            for (String fieldName : data.keySet()) {
-                                if (fieldName.contains("short_term")) {
-                                    if (fieldName.contains("artists")) {
-                                        try {
-                                            short_term_wrap.setArtists(new JSONObject(documentSnapshot.getString(fieldName)));
-                                        } catch (JSONException e) {
-                                            throw new RuntimeException(e);
+                                short_term_wrap.setDate(month);
+                                mid_term_wrap.setDate(month);
+                                long_term_wrap.setDate(month);
+
+                                for (String fieldName : data.keySet()) {
+                                    if (fieldName.contains("short_term")) {
+                                        if (fieldName.contains("artists")) {
+                                            try {
+                                                short_term_wrap.setArtists(new JSONObject(documentSnapshot.getString(fieldName)));
+                                            } catch (JSONException e) {
+                                                throw new RuntimeException(e);
+                                            }
+                                        } else if (fieldName.contains("tracks")) {
+                                            try {
+                                                short_term_wrap.setTracks(new JSONObject(documentSnapshot.getString(fieldName)));
+                                            } catch (JSONException e) {
+                                                throw new RuntimeException(e);
+                                            }
                                         }
-                                    } else if(fieldName.contains("tracks")) {
-                                        try {
-                                            short_term_wrap.setTracks(new JSONObject(documentSnapshot.getString(fieldName)));
-                                        } catch (JSONException e) {
-                                            throw new RuntimeException(e);
+                                    } else if (fieldName.contains("medium_term")) {
+                                        if (fieldName.contains("artists")) {
+                                            try {
+                                                mid_term_wrap.setArtists(new JSONObject(documentSnapshot.getString(fieldName)));
+                                            } catch (JSONException e) {
+                                                throw new RuntimeException(e);
+                                            }
+                                        } else if (fieldName.contains("tracks")) {
+                                            try {
+                                                mid_term_wrap.setTracks(new JSONObject(documentSnapshot.getString(fieldName)));
+                                            } catch (JSONException e) {
+                                                throw new RuntimeException(e);
+                                            }
                                         }
-                                    }
-                                } else if (fieldName.contains("medium_term")) {
-                                    if (fieldName.contains("artists")) {
-                                        try {
-                                            mid_term_wrap.setArtists(new JSONObject(documentSnapshot.getString(fieldName)));
-                                        } catch (JSONException e) {
-                                            throw new RuntimeException(e);
-                                        }
-                                    } else if(fieldName.contains("tracks")) {
-                                        try {
-                                            mid_term_wrap.setTracks(new JSONObject(documentSnapshot.getString(fieldName)));
-                                        } catch (JSONException e) {
-                                            throw new RuntimeException(e);
-                                        }
-                                    }
-                                } else if (fieldName.contains("long_term")) {
-                                    if (fieldName.contains("artists")) {
-                                        try {
-                                            long_term_wrap.setArtists(new JSONObject(documentSnapshot.getString(fieldName)));
-                                        } catch (JSONException e) {
-                                            throw new RuntimeException(e);
-                                        }
-                                    } else if(fieldName.contains("tracks")) {
-                                        try {
-                                            long_term_wrap.setTracks(new JSONObject(documentSnapshot.getString(fieldName)));
-                                        } catch (JSONException e) {
-                                            throw new RuntimeException(e);
+                                    } else if (fieldName.contains("long_term")) {
+                                        if (fieldName.contains("artists")) {
+                                            try {
+                                                long_term_wrap.setArtists(new JSONObject(documentSnapshot.getString(fieldName)));
+                                            } catch (JSONException e) {
+                                                throw new RuntimeException(e);
+                                            }
+                                        } else if (fieldName.contains("tracks")) {
+                                            try {
+                                                long_term_wrap.setTracks(new JSONObject(documentSnapshot.getString(fieldName)));
+                                            } catch (JSONException e) {
+                                                throw new RuntimeException(e);
+                                            }
                                         }
                                     }
                                 }
+                                if (short_term_wrap.getArtists() != null && short_term_wrap.getTracks() != null) {
+                                    add(short_term_wrap);
+                                }
+                                if (mid_term_wrap.getArtists() != null && mid_term_wrap.getTracks() != null) {
+                                    add(mid_term_wrap);
+                                }
+                                if (long_term_wrap.getArtists() != null && long_term_wrap.getTracks() != null) {
+                                    add(long_term_wrap);
+                                }
                             }
-                            add(short_term_wrap);
-                            add(mid_term_wrap);
-                            add(long_term_wrap);
                         }
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                    }
-                });
-        allWraps = all;
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                        }
+                    });
+        }
     }
 
     //Finish writing this function to add a Wrap to Firebase
@@ -172,6 +185,10 @@ public class Wrap {
     }
     //--------------------------------------------------------------------------------
 
+    public static ArrayList<Wrap> getAll() {
+        return allWraps;
+    }
+
     public static Wrap get(int index) {
         return allWraps.get(index);
     }
@@ -184,7 +201,6 @@ public class Wrap {
         Wrap newWrap = new Wrap(timeSpan);
         setCurrent(newWrap);
         add(newWrap);
-        addToFirebase(newWrap);
         return newWrap;
     }
 
@@ -193,9 +209,18 @@ public class Wrap {
     private JSONObject tracks;
     private JSONObject artists;
 
-    public Wrap(String time) {
+    public Wrap (String time) {
         timeSpan = time;
         date = getCurrentDate();
+    }
+
+    public Wrap(String time, String newDate) {
+        timeSpan = time;
+        date = newDate;
+    }
+
+    public String getTimeline() {
+        return timeSpan;
     }
 
     public String getTimeSpan() {
@@ -229,8 +254,6 @@ public class Wrap {
     }
 
     public static String getCurrentDate() {
-        LocalDate date = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("M/d/yy");
-        return date.format(formatter);
+        return LocalDate.now().getMonth().toString();
     }
 }

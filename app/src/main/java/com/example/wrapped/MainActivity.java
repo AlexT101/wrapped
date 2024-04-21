@@ -75,7 +75,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
         navigationView.setNavigationItemSelectedListener(this);
-        ArrayList<Wrap> test = new ArrayList<>();
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
@@ -102,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if (Spotify.getToken() == null || Spotify.getToken() == "") {
                 Spotify.getUserFromFirestore(this);
             }
-            Wrap.loadFromFirebase(test, currentUser.getUid().toString());
+            Wrap.loadFromFirebase(currentUser.getUid().toString());
         }
     }
 

@@ -22,6 +22,7 @@ import com.example.wrapped.LoadingActivity;
 import com.example.wrapped.RecyclerViewListener;
 import com.example.wrapped.PastWrapsActivity;
 import com.example.wrapped.PastWrapAdapter;
+import com.example.wrapped.Wrap;
 import com.example.wrapped.databinding.FragmentHomeBinding;
 import com.example.wrapped.R;
 
@@ -32,7 +33,7 @@ public class HomeFragment extends Fragment implements RecyclerViewListener {
 
     private FragmentHomeBinding binding;
     private RecyclerView recyclerView;
-    private PastWrapAdapter adapter;
+    public static PastWrapAdapter adapter;
     private List<PastWrapsActivity> PastWrapList;
     private RadioGroup timeSpanGroup;
 
@@ -78,11 +79,8 @@ public class HomeFragment extends Fragment implements RecyclerViewListener {
         recyclerView = view.findViewById(R.id.recyclerView);
         //findViewById(R.id.recyclerView);
 
-        PastWrapList = new ArrayList<>();
-        PastWrapList.add(new PastWrapsActivity("3/24/24", "6M"));
-        PastWrapList.add(new PastWrapsActivity("12/24/24", "1M"));
-
-        adapter = new PastWrapAdapter(PastWrapList, this);
+        Log.d("WRAP_LENGTH", String.valueOf(Wrap.getAll().size()));
+        adapter = new PastWrapAdapter(Wrap.getAll(), this);
         recyclerView.setAdapter(adapter);
     }
 
