@@ -1,10 +1,25 @@
 package com.example.wrapped;
 
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Firebase;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Wrap {
 
@@ -22,12 +37,137 @@ public class Wrap {
     //FIREBASE SYNC FUNCTIONS---------------------------------------------------------
 
     //Call this function when the user logs in to load all wraps from firebase
-    public static void loadFromFirebase(ArrayList<Wrap> all) {
+    public static void loadFromFirebase(ArrayList<Wrap> all, String user) {
+        FirebaseFirestore.getInstance().collection("users").document(user).collection("old_wrapped").document(LocalDate.now().getMonth().toString())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()) {
+                            Map<String, Object> data = documentSnapshot.getData();
+                            Wrap short_term_wrap = new Wrap("short_term");
+                            Wrap mid_term_wrap = new Wrap("medium_term");
+                            Wrap long_term_wrap = new Wrap("long_term");
+
+                            for (String fieldName : data.keySet()) {
+                                if (fieldName.contains("short_term")) {
+                                    if (fieldName.contains("artists")) {
+                                        try {
+                                            short_term_wrap.setArtists(new JSONObject(documentSnapshot.getString(fieldName)));
+                                        } catch (JSONException e) {
+                                            throw new RuntimeException(e);
+                                        }
+                                    } else if(fieldName.contains("tracks")) {
+                                        try {
+                                            short_term_wrap.setTracks(new JSONObject(documentSnapshot.getString(fieldName)));
+                                        } catch (JSONException e) {
+                                            throw new RuntimeException(e);
+                                        }
+                                    }
+                                } else if (fieldName.contains("medium_term")) {
+                                    if (fieldName.contains("artists")) {
+                                        try {
+                                            mid_term_wrap.setArtists(new JSONObject(documentSnapshot.getString(fieldName)));
+                                        } catch (JSONException e) {
+                                            throw new RuntimeException(e);
+                                        }
+                                    } else if(fieldName.contains("tracks")) {
+                                        try {
+                                            mid_term_wrap.setTracks(new JSONObject(documentSnapshot.getString(fieldName)));
+                                        } catch (JSONException e) {
+                                            throw new RuntimeException(e);
+                                        }
+                                    }
+                                } else if (fieldName.contains("long_term")) {
+                                    if (fieldName.contains("artists")) {
+                                        try {
+                                            long_term_wrap.setArtists(new JSONObject(documentSnapshot.getString(fieldName)));
+                                        } catch (JSONException e) {
+                                            throw new RuntimeException(e);
+                                        }
+                                    } else if(fieldName.contains("tracks")) {
+                                        try {
+                                            long_term_wrap.setTracks(new JSONObject(documentSnapshot.getString(fieldName)));
+                                        } catch (JSONException e) {
+                                            throw new RuntimeException(e);
+                                        }
+                                    }
+                                }
+                            }
+                            add(short_term_wrap);
+                            add(mid_term_wrap);
+                            add(long_term_wrap);
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
         allWraps = all;
     }
 
     //Finish writing this function to add a Wrap to Firebase
-    public static void addToFirebase(Wrap wrap) {
+    public static void addToFirebase(Wrap wrap){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            FirebaseFirestore.getInstance().collection("users").document(user.getUid().toString()).collection("old_wrapped").document(LocalDate.now().getMonth().toString())
+                    .get()
+                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            if (wrap.tracks !=null || wrap.artists !=null) {
+                                if (documentSnapshot.exists()) {
+                                    pushHelper(documentSnapshot, wrap.timeSpan, wrap.tracks.toString(), "tracks","update");
+                                    pushHelper(documentSnapshot, wrap.timeSpan, wrap.artists.toString(), "artists","update");
+                                } else {
+                                    pushHelper(documentSnapshot, wrap.timeSpan, wrap.tracks.toString(), "tracks","set");
+                                    pushHelper(documentSnapshot, wrap.timeSpan, wrap.artists.toString(), "artists","set");
+                                }
+                            }
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                        }
+                    });
+        }
+    }
+    private static void pushHelper(DocumentSnapshot documentSnapshot, String time, String wrapped, String wrapped_type, String action) {
+        Map<String, Object> updates = new HashMap<>();
+        updates.put(time+"_"+wrapped_type,wrapped);
+        if(action.equals("update")) {
+            documentSnapshot.getReference().
+                    update(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            System.out.println("hello");
+
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                        }
+                    });
+        } else if (action.equals("set")) {
+            documentSnapshot.getReference().
+                    set(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            System.out.println("hello");
+
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                        }
+                    });
+        }
 
     }
     //--------------------------------------------------------------------------------

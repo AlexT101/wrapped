@@ -8,6 +8,8 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.Firebase;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -21,6 +23,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 
 import okhttp3.Call;
@@ -96,7 +99,7 @@ public class Spotify {
     public static void setRefresh(String user, String val) {
         refresh = val;
         if (user != null) {
-            pushDataIntoFirestore(user, refresh);
+            pushUserIntoFirestore(user, refresh);
             Log.d("API CALL", "Code successfully saved: " + refresh);
         }
     }
@@ -290,24 +293,37 @@ public class Spotify {
         }
     }
 
-    private static void pushDataIntoFirestore(String uid, String code) {
+    private static void pushUserIntoFirestore(String uid, String code) {
         CollectionReference collection = FirebaseFirestore.getInstance().collection("users");
         DocumentReference document = collection.document(uid);
-        document.set(new User(code))
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
+        document.get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
-                    public void onSuccess(Void aVoid) {
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        documentSnapshot.getReference()
+                                .update(Collections.singletonMap("code", code))
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                    }
+                                });
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+
                     }
                 });
 
     }
 
-    public static void getDataFromFirestore(Activity contextActivity) {
+    public static void getUserFromFirestore(Activity contextActivity) {
         if (user != null) {
             FirebaseFirestore.getInstance().collection("users").document(user)
                     .get()
@@ -353,7 +369,8 @@ public class Spotify {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 try {
-                    Wrap.getCurrent().setTracks(new JSONObject(response.body().string()));
+                    JSONObject newWrapped = new JSONObject(response.body().string());
+                    Wrap.getCurrent().setTracks(newWrapped);
                     Log.d("SPOTIFY", Wrap.getCurrent().getTracks().toString(3));
                 } catch (JSONException e) {
                     Log.d("SPOTIFY:JSON", "Failed to parse top tracks JSON: " + e);
@@ -387,7 +404,8 @@ public class Spotify {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 try {
-                    Wrap.getCurrent().setArtists(new JSONObject(response.body().string()));
+                    JSONObject newWrapped = new JSONObject(response.body().string());
+                    Wrap.getCurrent().setArtists(newWrapped);
                     Log.d("SPOTIFY", Wrap.getCurrent().getArtists().toString(3));
                 } catch (JSONException e) {
                     Log.d("SPOTIFY:JSON", "Failed to parse top tracks JSON: " + e);

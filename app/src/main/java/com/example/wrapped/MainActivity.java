@@ -6,7 +6,10 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
@@ -22,8 +25,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.wrapped.databinding.ActivityMainBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.spotify.sdk.android.auth.AuthorizationClient;
 import com.spotify.sdk.android.auth.AuthorizationResponse;
+
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -35,6 +45,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FirebaseAuth mAuth;
 
     FirebaseUser currentUser;
+
+    String current_username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,15 +75,34 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
         navigationView.setNavigationItemSelectedListener(this);
-
+        ArrayList<Wrap> test = new ArrayList<>();
         mAuth = FirebaseAuth.getInstance();
         currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
+            FirebaseFirestore.getInstance().collection("users").document(currentUser.getUid().toString())
+                    .get()
+                    .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            if (documentSnapshot.exists()) {
+                                TextView textView = findViewById(R.id.username);
+                                textView.setText(documentSnapshot.getString("username"));
+                                current_username = documentSnapshot.getString("username");
+                            }
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+
+                        }
+                    });
+
             Log.d("API CALL", "Logged in user: " + currentUser.getUid());
             Spotify.setUser(currentUser.getUid());
             if (Spotify.getToken() == null || Spotify.getToken() == "") {
-                Spotify.getDataFromFirestore(this);
+                Spotify.getUserFromFirestore(this);
             }
+            Wrap.loadFromFirebase(test, currentUser.getUid().toString());
         }
     }
 
@@ -113,5 +144,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             Spotify.setCode(response.getCode());
             Spotify.instance.loadToken(this);
         }
+    }
+
+    public String getUsername() {
+        return current_username;
     }
 }

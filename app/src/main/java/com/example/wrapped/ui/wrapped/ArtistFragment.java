@@ -49,7 +49,8 @@ public class ArtistFragment extends Fragment {
         JSONObject topArtists = Wrap.getCurrent().getArtists();
         if (topArtists != null) {
             try {
-                JSONArray items = topArtists.getJSONArray("items");
+                String array = topArtists.getJSONArray("items").toString();
+                JSONArray items = new JSONArray(array);
                 if (items.length() > 0) {
                     JSONObject topArtist = items.getJSONObject(0);
                     String name = topArtist.getString("name");

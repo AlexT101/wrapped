@@ -19,9 +19,17 @@ import com.example.wrapped.MainActivity;
 import com.example.wrapped.R;
 import com.example.wrapped.ui.firebase.FirebaseFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Collections;
+import java.util.Map;
 
 public class SignUpFragment extends Fragment {
 
@@ -29,6 +37,7 @@ public class SignUpFragment extends Fragment {
     private Button signupButton;
     private Button goLogin;
     private FirebaseAuth firebaseAuth;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -74,11 +83,25 @@ public class SignUpFragment extends Fragment {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign up successful
-                            Toast.makeText(getActivity(), "Sign up successful", Toast.LENGTH_SHORT).show();
-                            // Proceed to another fragment or activity
-                            Intent intent = new Intent(getActivity(), MainActivity.class);
-                            // Start the activity
-                            startActivity(intent);
+                            DocumentReference document = FirebaseFirestore.getInstance().collection("users").document(FirebaseAuth.getInstance().getCurrentUser().getUid().toString());
+                            document.set(Collections.singletonMap("username", email)).
+                                    addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            // Proceed to another fragment or activity
+                                            Toast.makeText(getActivity(), "Sign up successful", Toast.LENGTH_SHORT).show();
+                                            Intent intent = new Intent(getActivity(), MainActivity.class);
+                                            // Start the activity
+                                            startActivity(intent);
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Toast.makeText(getActivity(), "Sign up failed", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+
                         } else {
                             Log.d("SignUpError", "Sign up failed", task.getException());
                             // Sign up failed
