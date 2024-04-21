@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +31,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.Collections;
+import java.util.Objects;
+
 public class SettingsFragment extends Fragment {
 
     private FragmentSettingsBinding binding;
@@ -47,6 +51,18 @@ public class SettingsFragment extends Fragment {
         View root = binding.getRoot();
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+        EditText editText = root.findViewById(R.id.textView5);
+        MainActivity mainActivity = (MainActivity) getActivity();
+        editText.setText(mainActivity.getUsername());
+        Button saveButton = root.findViewById(R.id.saveButton);
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditText editText = root.findViewById(R.id.textView5);
+                String uname = editText.getText().toString();
+                setUserName(uname,mAuth.getUid().toString(), root);
+            }
+        });
         Button deleteAccountButton = root.findViewById(R.id.deleteButton);
         deleteAccountButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,7 +74,21 @@ public class SettingsFragment extends Fragment {
         settingsViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
         return root;
     }
+    private void setUserName(String username, String uid, View root) {
+        FirebaseFirestore.getInstance().collection("users").document(uid).
+                update(Collections.singletonMap("username", username)).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        getActivity().recreate();
+                        Toast.makeText(getActivity(), "Updated UserName", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
 
+                    }
+                });
+    }
     private void deleteAccount() {
         FirebaseUser user = mAuth.getCurrentUser();
         if (user != null) {

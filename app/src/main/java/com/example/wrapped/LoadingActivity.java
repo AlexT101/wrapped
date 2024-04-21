@@ -76,6 +76,7 @@ public class LoadingActivity extends Activity {
         Spotify.instance.fetchTopArtists(timeSpan);
         Spotify.instance.fetchTopTracks(timeSpan);
         checkAnimation();
+        //Wrap.addToFirebase(Wrap.getCurrent());
     }
 }
 
