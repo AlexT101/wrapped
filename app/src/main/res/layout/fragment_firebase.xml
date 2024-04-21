@@ -22,15 +22,16 @@
         app:layout_constraintVertical_bias="0.0">
 
     </ScrollView>
-    <TextView
+    <ImageView
         android:id="@+id/illustration"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_width="400dp"
+        android:layout_height="180dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/logo"
         android:gravity="center"
-        android:text="cool illustration goes here"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp"
-        android:layout_centerHorizontal="true"/>
+        android:scaleType="center"
+        android:scaleX="1"
+        android:scaleY="1.5"/>
 
     <TextView
         android:id="@+id/Wrapped."
