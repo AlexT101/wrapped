@@ -9,14 +9,6 @@
             android:icon="@drawable/home"
             android:title="@string/menu_home" />
         <item
-            android:id="@+id/nav_friends"
-            android:icon="@drawable/friends"
-            android:title="@string/menu_friends" />
-        <item
-            android:id="@+id/nav_history"
-            android:icon="@drawable/history"
-            android:title="@string/menu_history" />
-        <item
             android:id="@+id/nav_connect"
             android:icon="@drawable/brand_spotify"
             android:title="@string/menu_connect" />

@@ -24,6 +24,18 @@ import java.util.Map;
 
 public class Wrap {
 
+    private static DataChangeListener listener;
+
+    public static void setDataChangeListener(DataChangeListener listener) {
+        Wrap.listener = listener;
+    }
+
+    public static void dataChanged() {
+        if (listener != null) {
+            listener.onDataChanged();
+        }
+    }
+
     private static Wrap currentWrap;
     private static ArrayList<Wrap> allWraps = new ArrayList<>();
 
@@ -195,6 +207,7 @@ public class Wrap {
 
     public static void add(Wrap newWrap) {
         allWraps.add(newWrap);
+        Wrap.dataChanged();
     }
 
     public static Wrap createWrap(String timeSpan) {

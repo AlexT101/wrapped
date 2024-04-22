@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.wrapped.DataChangeListener;
 import com.example.wrapped.DuoActivity;
 import com.example.wrapped.LoadingActivity;
 import com.example.wrapped.RecyclerViewListener;
@@ -29,7 +30,7 @@ import com.example.wrapped.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragment extends Fragment implements RecyclerViewListener {
+public class HomeFragment extends Fragment implements RecyclerViewListener, DataChangeListener {
 
     private FragmentHomeBinding binding;
     private RecyclerView recyclerView;
@@ -72,16 +73,12 @@ public class HomeFragment extends Fragment implements RecyclerViewListener {
             startActivity(intent);
         });
 
-        TextView textView = view.findViewById(R.id.see_all);
-        textView.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.nav_history));
-
-
         recyclerView = view.findViewById(R.id.recyclerView);
         //findViewById(R.id.recyclerView);
 
-        Log.d("WRAP_LENGTH", String.valueOf(Wrap.getAll().size()));
         adapter = new PastWrapAdapter(Wrap.getAll(), this);
         recyclerView.setAdapter(adapter);
+        Wrap.setDataChangeListener(this);
     }
 
     @Override
@@ -110,6 +107,11 @@ public class HomeFragment extends Fragment implements RecyclerViewListener {
             case 2: return "long_term";
             default: return "medium_term"; // Default value
         }
+    }
+
+    @Override
+    public void onDataChanged() {
+        adapter.notifyDataSetChanged();
     }
 }
 
