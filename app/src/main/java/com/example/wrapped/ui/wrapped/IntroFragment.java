@@ -56,9 +56,9 @@ public class IntroFragment extends Fragment {
                     String uri = album.getString("uri");
                     Log.d("uri", uri);
 
-                    Spotify.onStart();
+                    Spotify.instance.onStart();
                     // Assuming uri is obtained from some source
-                    Spotify.connected(uri);
+                    Spotify.instance.connected(uri);
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
