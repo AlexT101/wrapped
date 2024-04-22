@@ -70,18 +70,15 @@ public class WrappedActivity extends AppCompatActivity {
         fabsVisible = false;
 
         fabs = new FloatingActionButton[]{
-                findViewById(R.id.fab_download),
-                findViewById(R.id.fab_share)
+                findViewById(R.id.fab_download)
         };
 
         textViews = new TextView[]{
-                findViewById(R.id.tv_download),
-                findViewById(R.id.tv_share)
+                findViewById(R.id.tv_download)
         };
 
         offsets = new int[]{
-                R.dimen.offset1,
-                R.dimen.offset2
+                R.dimen.offset1
         };
 
         FloatingActionButton fabMain = findViewById(R.id.fab_main);
@@ -96,8 +93,6 @@ public class WrappedActivity extends AppCompatActivity {
         });
 
         fabs[0].setOnClickListener(view -> downloadPNG());
-
-        fabs[1].setOnClickListener(view -> shareFriend());
     }
     private void showFabs() {
         for (int i = 0; i < fabs.length; i++) {

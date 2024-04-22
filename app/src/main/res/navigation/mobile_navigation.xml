@@ -12,18 +12,6 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_friends"
-        android:name="com.example.wrapped.ui.friends.FriendsFragment"
-        android:label="@string/menu_friends"
-        tools:layout="@layout/fragment_friends" />
-
-    <fragment
-        android:id="@+id/nav_history"
-        android:name="com.example.wrapped.ui.history.HistoryFragment"
-        android:label="@string/menu_history"
-        tools:layout="@layout/fragment_history" />
-
-    <fragment
         android:id="@+id/nav_connect"
         android:name="com.example.wrapped.ui.connect.ConnectFragment"
         android:label="@string/menu_connect"

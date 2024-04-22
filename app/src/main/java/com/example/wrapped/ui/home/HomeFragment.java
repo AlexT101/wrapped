@@ -2,23 +2,19 @@ package com.example.wrapped.ui.home;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.RadioGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.wrapped.DataChangeListener;
-import com.example.wrapped.DuoActivity;
 import com.example.wrapped.LoadingActivity;
 import com.example.wrapped.RecyclerViewListener;
 import com.example.wrapped.PastWrapsActivity;
@@ -27,7 +23,6 @@ import com.example.wrapped.Wrap;
 import com.example.wrapped.databinding.FragmentHomeBinding;
 import com.example.wrapped.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment implements RecyclerViewListener, DataChangeListener {
