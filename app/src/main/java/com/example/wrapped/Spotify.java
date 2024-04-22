@@ -487,5 +487,36 @@ public class Spotify {
             }
         });
     }
+    public static void skipToNext() {
+        if (token == null) {
+            Log.d("SPOTIFY:HTTP", "You need to get a token first!");
+            return;
+        }
+
+        final Request request = new Request.Builder()
+                .url("https://api.spotify.com/v1/me/player/next")
+                .addHeader("Authorization", "Bearer " + token)
+                .post(RequestBody.create("", null)) // POST request with an empty body
+                .build();
+
+        OkHttpClient mOkHttpClient = new OkHttpClient();
+        Call call = mOkHttpClient.newCall(request);
+
+        call.enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.d("SPOTIFY:HTTP", "Failed to skip to next track: " + e);
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                if (response.isSuccessful()) {
+                    Log.d("SPOTIFY:HTTP", "Successfully skipped to next track.");
+                } else {
+                    Log.e("SPOTIFY:HTTP", "Failed to skip to next track: " + response.code() + " " + response.message());
+                }
+            }
+        });
+    }
 
 }

@@ -38,6 +38,8 @@ public class GenreFragment extends Fragment {
 
         displayTopGenre();
 
+        Spotify.skipToNext();
+
         return rootView;
     }
     private void displayTopGenre() {
