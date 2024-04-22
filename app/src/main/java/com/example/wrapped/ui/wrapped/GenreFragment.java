@@ -65,7 +65,7 @@ public class GenreFragment extends Fragment {
             // Find the most common genre
             String topGenre = Collections.max(genreCount.entrySet(), Map.Entry.comparingByValue()).getKey();
 
-            topGenreTextView.setText(topGenre);
+            topGenreTextView.setText(topGenre.toUpperCase());
         } catch (JSONException e) {
             e.printStackTrace();
         }
