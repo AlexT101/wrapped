@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 import com.example.wrapped.R;
+import com.example.wrapped.Spotify;
 import com.example.wrapped.Wrap;
 
 import org.json.JSONArray;
@@ -45,6 +46,7 @@ public class PersonalityFragment extends Fragment {
         personalityText = rootView.findViewById(R.id.bottomText);
 
         displayPersonality();
+        Spotify.skipToNext();
 
         return rootView;
     }

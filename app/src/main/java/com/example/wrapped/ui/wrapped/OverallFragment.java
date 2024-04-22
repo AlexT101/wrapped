@@ -69,6 +69,7 @@ public class OverallFragment extends Fragment {
         albumCover = rootView.findViewById(R.id.overall_album_cover);
 
         displayTopItems();
+        Spotify.skipToNext();
 
         return rootView;
     }

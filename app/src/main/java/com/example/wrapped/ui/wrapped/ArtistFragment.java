@@ -41,6 +41,7 @@ public class ArtistFragment extends Fragment {
         topArtistImage = rootView.findViewById(R.id.top_artist_profile);
 
         displayTopArtist();
+        Spotify.skipToNext();
 
         return rootView;
     }

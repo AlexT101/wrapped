@@ -42,9 +42,8 @@ public class SongFragment extends Fragment {
         topTrackArtist = rootView.findViewById(R.id.songArtist);
         topTrackAlbumImage = rootView.findViewById(R.id.songCover);
 
-
-
         displayTopTrack();
+        Spotify.skipToNext();
 
         return rootView;
     }
