@@ -24,11 +24,13 @@
     </ScrollView>
 
     <ImageView
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="48dp"
         android:id="@+id/illustration"
         android:layout_width="match_parent"
         android:layout_height="168dp"
-        android:src="@drawable/logo" />
+        android:src="@drawable/logo"
+        android:layout_marginBottom="48dp"
+        />
 
 
     <LinearLayout
@@ -103,33 +105,6 @@
 
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/checkboxHolder"
-        android:layout_width="350dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:orientation="horizontal"
-        app:cardCornerRadius="30dp"
-        android:layout_below="@+id/password"
-        android:layout_centerHorizontal="true">
-        <CheckBox
-            android:id="@+id/checkBox"
-            android:layout_width="106dp"
-            android:layout_height="37dp"
-            android:text="@string/login_remember"
-            android:textColor="#858585" />
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/login_forgot"
-            android:textColor="#858585" />
-    </LinearLayout>
-
     <Button
         android:id="@+id/login_button"
         android:layout_width="350dp"
@@ -137,57 +112,8 @@
         android:text="@string/login_button"
         android:textColor="@color/white"
         android:backgroundTint="#00bd4d"
-        android:layout_below="@+id/checkboxHolder"
+        android:layout_below="@+id/password"
         android:layout_centerHorizontal="true"/>
-
-    <LinearLayout
-        android:id="@+id/continueHolder"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:orientation="horizontal"
-        app:cardCornerRadius="30dp"
-        android:layout_below="@+id/login_button"
-        android:layout_centerHorizontal="true"
-        android:gravity="center">
-        <View
-            android:id="@+id/view"
-            android:layout_width="90dp"
-            android:layout_height="2dp"
-            android:background="#FFFFFF" />
-
-        <TextView
-            android:id="@+id/or_continue_with"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:text="@string/login_or"
-            android:textColor="#FFFFFF"
-            android:textSize="20sp" />
-
-        <View
-            android:id="@+id/view2"
-            android:layout_width="90dp"
-            android:layout_height="2dp"
-            android:background="#FFFFFF" />
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/login_google"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/white"
-        android:drawableStart="@drawable/google"
-        android:drawablePadding="10dp"
-        android:text="@string/login_google"
-        android:textColor="@color/black"
-        android:layout_below="@+id/continueHolder"
-        android:layout_centerHorizontal="true" />
 
     <LinearLayout
         android:id="@+id/signupHolder"
@@ -196,7 +122,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:orientation="horizontal"
-        android:layout_below="@+id/login_google"
+        android:layout_below="@+id/login_button"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
         >
@@ -227,13 +153,14 @@
         android:textSize="18sp"
         android:layout_below="@+id/signupHolder"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"/>
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        />
 
     <LinearLayout
         android:id="@+id/spotifyHolder"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:orientation="horizontal"
@@ -247,7 +174,7 @@
             android:background="@drawable/brand_spotify_green" />
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="80dp"
             android:text="@string/spotify"
             android:textColor="#00db4d"
             android:textSize="40sp"

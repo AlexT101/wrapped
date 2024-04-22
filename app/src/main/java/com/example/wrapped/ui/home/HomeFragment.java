@@ -67,12 +67,6 @@ public class HomeFragment extends Fragment implements RecyclerViewListener, Data
             startActivity(intent);
         });
 
-        ImageButton duoButton = view.findViewById(R.id.duo_button);
-        duoButton.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), DuoActivity.class);
-            startActivity(intent);
-        });
-
         recyclerView = view.findViewById(R.id.recyclerView);
         //findViewById(R.id.recyclerView);
 

@@ -109,65 +109,10 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/cardView2"
-            android:layout_width="400dp"
-            android:layout_height="120dp"
-            android:layout_below="@id/cardView1"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginEnd="20dp"
-            android:orientation="horizontal"
-            android:background="@drawable/round_corners">
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/textView3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="@string/duo_title"
-                    android:textAlignment="center"
-                    android:textColor="@color/white"
-                    android:textSize="48sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.195"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="6dp"
-                    android:text="@string/duo_description"
-                    android:textColor="@color/white"
-                    android:textSize="20sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.228"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
-                <ImageButton
-                    android:id="@+id/duo_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="16dp"
-                    android:background="@null"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:src="@drawable/button_selector"
-                    android:rotation="90"/>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </LinearLayout>
-
-        <LinearLayout
             android:id="@+id/pastWrapHeader"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/cardView2"
+            android:layout_below="@id/cardView1"
             android:layout_alignParentStart="true"
             android:layout_marginStart="0dp"
             android:paddingStart="20dp"
